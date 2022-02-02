@@ -23,6 +23,13 @@ function App() {
     const removeTask = (taskID: string) => {
         setTasks(tasks.filter(t => t.id !== taskID));
     }
+    const addTask = (title: string) => {
+        let newTask = {id: v1(), title, isDone: false};
+        setTasks([newTask, ...tasks]);
+    }
+    const changeTaskStatus = (taskID: string, status: boolean) => {
+        setTasks(tasks.map(t => t.id === taskID ? {...t, isDone: status} : t));
+    }
     const getFilteredTasks = (filterValue: FilterValueType): TaskType[] => {
         switch (filterValue) {
             case "Active":
@@ -41,6 +48,8 @@ function App() {
                 title="What to learn"
                 tasks={filteredTasks}
                 removeTask={removeTask}
+                addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
                 setFilterValue={setFilterValue}
             />
         </div>
