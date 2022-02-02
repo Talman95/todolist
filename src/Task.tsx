@@ -1,20 +1,26 @@
 import React from 'react';
 
-type TaskType = {
-    id: string
+type PropsType = {
+    taskID: string
     title: string
     isDone: boolean
+    removeTask: (taskID: string) => void
 }
 
-type PropsType = {
-    task: TaskType
-}
-
-export const Task: React.FC<PropsType> = ({task}) => {
+export const Task: React.FC<PropsType> = (
+    {
+        taskID, title, isDone,
+        removeTask
+    }
+) => {
+    const onRemoveTaskHandler = () => {
+        removeTask(taskID);
+    }
     return (
         <li>
-            <input type="checkbox" checked={task.isDone}/>
-            <span>{task.title}</span>
+            <input type="checkbox" checked={isDone}/>
+            <button onClick={onRemoveTaskHandler}>X</button>
+            <span>{title}</span>
         </li>
     );
 };
