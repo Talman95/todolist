@@ -21,8 +21,12 @@ export const Task: React.FC<PropsType> = (
         changeTaskStatus(taskID, e.currentTarget.checked);
     }
     return (
-        <li>
-            <input type="checkbox" checked={isDone} onChange={onChangeTaskStatus}/>
+        <li className={isDone ? 'is-done': ''}>
+            <input
+                type="checkbox"
+                checked={isDone}
+                onChange={onChangeTaskStatus}
+            />
             <button onClick={onClickRemoveTask}>X</button>
             <span>{title}</span>
         </li>
