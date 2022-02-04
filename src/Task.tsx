@@ -1,4 +1,6 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
+import {MyButton} from "./components/MyButton";
+import {MyCheckbox} from "./components/MyCheckbox";
 
 type PropsType = {
     taskID: string
@@ -17,17 +19,19 @@ export const Task: React.FC<PropsType> = (
     const onClickRemoveTask = () => {
         removeTask(taskID);
     }
-    const onChangeTaskStatus = (e:ChangeEvent<HTMLInputElement>) => {
-        changeTaskStatus(taskID, e.currentTarget.checked);
+    const onChangeTaskStatus = (status: boolean) => {
+        changeTaskStatus(taskID, status);
     }
     return (
         <li className={isDone ? 'is-done': ''}>
-            <input
-                type="checkbox"
-                checked={isDone}
-                onChange={onChangeTaskStatus}
+            <MyCheckbox
+                status={isDone}
+                callback={onChangeTaskStatus}
             />
-            <button onClick={onClickRemoveTask}>X</button>
+            <MyButton
+                name={'X'}
+                callback={onClickRemoveTask}
+            />
             <span>{title}</span>
         </li>
     );

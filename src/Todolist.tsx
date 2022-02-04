@@ -1,7 +1,9 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {KeyboardEvent, useState} from 'react';
 import {Task} from "./Task";
 import {FilterValueType, TaskType} from "./App";
 import {TaskHeader} from "./TaskHeader";
+import {MyButton} from "./components/MyButton";
+import {MyInput} from "./components/MyInput";
 
 type PropsType = {
     title: string
@@ -30,16 +32,15 @@ export const Todolist: React.FC<PropsType> = (props) => {
         )
     })
 
-    const onChangeTaskTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value);
+    const onChangeTaskTitle = (message: string) => {
+        setTitle(message);
         setError(false);
     }
     const onClickAddTask = () => {
         let trimTitle = title.trim();
         if (trimTitle !== '') {
             props.addTask(trimTitle);
-        }
-        else {
+        } else {
             setError(true);
         }
         setTitle('');
@@ -58,18 +59,21 @@ export const Todolist: React.FC<PropsType> = (props) => {
         <div>
             <TaskHeader title={props.title}/>
             <div>
-                <input
+                <MyInput
                     value={title}
-                    onChange={onChangeTaskTitle}
-                    onKeyPress={onEnterPressHandler}
+                    onChangeCallback={onChangeTaskTitle}
+                    onKeyPressCallback={onEnterPressHandler}
                     className={inputClassName}
                 />
-                <button onClick={onClickAddTask}>+</button>
+                <MyButton
+                    name={'+'}
+                    callback={onClickAddTask}
+                />
                 <div className={'error-message'}>
                     {error && 'Title is require!'}
                 </div>
             </div>
-            {mappedTasks.length>0
+            {mappedTasks.length > 0
                 ?
                 <ul>{mappedTasks}</ul>
                 :
@@ -79,21 +83,21 @@ export const Todolist: React.FC<PropsType> = (props) => {
             }
 
             <div>
-                <button
-                    onClick={() => onClickSetFilter('All')}
+                <MyButton
+                    name={'All'}
+                    callback={() => onClickSetFilter('All')}
                     className={props.filterValue === 'All' ? 'active-filter' : ''}
-                >All
-                </button>
-                <button
-                    onClick={() => onClickSetFilter('Active')}
+                />
+                <MyButton
+                    name={'Active'}
+                    callback={() => onClickSetFilter('Active')}
                     className={props.filterValue === 'Active' ? 'active-filter' : ''}
-                >Active
-                </button>
-                <button
-                    onClick={() => onClickSetFilter('Completed')}
+                />
+                <MyButton
+                    name={'Completed'}
+                    callback={() => onClickSetFilter('Completed')}
                     className={props.filterValue === 'Completed' ? 'active-filter' : ''}
-                >Completed
-                </button>
+                />
             </div>
         </div>
     )
