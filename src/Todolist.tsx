@@ -6,18 +6,26 @@ import {MyButton} from "./components/MyButton";
 import {MyInput} from "./components/MyInput";
 
 type PropsType = {
+    todoListID: string
     title: string
     tasks: TaskType[]
-    removeTask: (taskID: string) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (taskID: string, status: boolean) => void
-    setFilterValue: (filter: FilterValueType) => void
+    removeTask: (todoListID: string, taskID: string) => void
+    addTask: (todoListID: string, title: string) => void
+    changeTaskStatus: (todoListID: string, taskID: string, status: boolean) => void
     filterValue: FilterValueType
+    changeFilterValue: (todoListID: string, filter: FilterValueType) => void
 }
 
 export const Todolist: React.FC<PropsType> = (props) => {
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
+
+    const removeTaskHandler = (taskID: string) => {
+        props.removeTask(props.todoListID, taskID)
+    }
+    const changeTaskStatusHandler = (taskID: string, status: boolean) => {
+        props.changeTaskStatus(props.todoListID, taskID, status);
+    }
 
     const mappedTasks = props.tasks.map(t => {
         return (
@@ -26,8 +34,8 @@ export const Todolist: React.FC<PropsType> = (props) => {
                 taskID={t.id}
                 title={t.title}
                 isDone={t.isDone}
-                removeTask={props.removeTask}
-                changeTaskStatus={props.changeTaskStatus}
+                removeTask={removeTaskHandler}
+                changeTaskStatus={changeTaskStatusHandler}
             />
         )
     })
@@ -39,7 +47,7 @@ export const Todolist: React.FC<PropsType> = (props) => {
     const onClickAddTask = () => {
         let trimTitle = title.trim();
         if (trimTitle !== '') {
-            props.addTask(trimTitle);
+            props.addTask(props.todoListID, trimTitle);
         } else {
             setError(true);
         }
@@ -51,7 +59,7 @@ export const Todolist: React.FC<PropsType> = (props) => {
         }
     }
     const onClickSetFilter = (filterValue: FilterValueType) => {
-        props.setFilterValue(filterValue);
+        props.changeFilterValue(props.todoListID, filterValue);
     }
     const inputClassName = error ? 'error' : '';
 
