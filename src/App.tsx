@@ -50,7 +50,6 @@ function App() {
         ]
     })
 
-    // const [filterValue, setFilterValue] = useState<FilterValueType>('All');
     const removeTask = (todoListID: string, taskID: string) => {
         setTasks({...tasks, [todoListID]: [...tasks[todoListID].filter(t => t.id !== taskID)]});
     }
@@ -77,7 +76,13 @@ function App() {
                 return tasks[todoList.id];
         }
     }
-    const filteredTodoLists = todoLists.map(tl => {
+    const removeTodoList = (todoListID: string) => {
+        setTodoLists(todoLists.filter(tl => tl.id !== todoListID));
+        delete tasks[todoListID];
+        setTasks({...tasks});
+    }
+
+    const todoListsComponents = todoLists.map(tl => {
         const taskForRender = getFilteredTasks(tl);
         return (
             <Todolist
@@ -90,13 +95,14 @@ function App() {
                 changeTaskStatus={changeTaskStatus}
                 filterValue={tl.filterValue}
                 changeFilterValue={changeFilterValue}
+                removeTodoList={removeTodoList}
             />
         )
     })
 
     return (
         <div className="App">
-            {filteredTodoLists}
+            {todoListsComponents}
         </div>
     );
 }

@@ -14,28 +14,29 @@ type PropsType = {
     changeTaskStatus: (todoListID: string, taskID: string, status: boolean) => void
     filterValue: FilterValueType
     changeFilterValue: (todoListID: string, filter: FilterValueType) => void
+    removeTodoList: (todoListID: string) => void
 }
 
 export const Todolist: React.FC<PropsType> = (props) => {
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
 
-    const removeTaskHandler = (taskID: string) => {
+    const removeTask = (taskID: string) => {
         props.removeTask(props.todoListID, taskID)
     }
-    const changeTaskStatusHandler = (taskID: string, status: boolean) => {
+    const changeTaskStatus = (taskID: string, status: boolean) => {
         props.changeTaskStatus(props.todoListID, taskID, status);
     }
 
-    const mappedTasks = props.tasks.map(t => {
+    const tasksComponents = props.tasks.map(t => {
         return (
             <Task
                 key={t.id}
                 taskID={t.id}
                 title={t.title}
                 isDone={t.isDone}
-                removeTask={removeTaskHandler}
-                changeTaskStatus={changeTaskStatusHandler}
+                removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
             />
         )
     })
@@ -65,7 +66,11 @@ export const Todolist: React.FC<PropsType> = (props) => {
 
     return (
         <div>
-            <TaskHeader title={props.title}/>
+            <TaskHeader
+                title={props.title}
+                todoListID={props.todoListID}
+                removeTodoList={props.removeTodoList}
+            />
             <div>
                 <MyInput
                     value={title}
@@ -81,9 +86,9 @@ export const Todolist: React.FC<PropsType> = (props) => {
                     {error && 'Title is require!'}
                 </div>
             </div>
-            {mappedTasks.length > 0
+            {tasksComponents.length > 0
                 ?
-                <ul>{mappedTasks}</ul>
+                <ul>{tasksComponents}</ul>
                 :
                 <div className={'not-found'}>
                     Tasks not found
