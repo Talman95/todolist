@@ -5,28 +5,32 @@ import {TaskHeader} from "./TaskHeader";
 import {ButtonsBlock} from "./ButtonsBlock";
 import {AddItemForm} from "./AddItemForm";
 
-type PropsType = {
+type TodoListPropsType = {
     todoListID: string
     title: string
+    filterValue: FilterValueType
     tasks: TaskType[]
     removeTask: (todoListID: string, taskID: string) => void
     addTask: (todoListID: string, title: string) => void
     changeTaskStatus: (todoListID: string, taskID: string, status: boolean) => void
-    filterValue: FilterValueType
     changeFilterValue: (todoListID: string, filter: FilterValueType) => void
-    removeTodoList: (todoListID: string) => void
     changeTaskTitle: (todoListID: string, taskID: string, title: string) => void
+    removeTodoList: (todoListID: string) => void
+    changeTodoListTitle: (todoListID: string, title: string) => void
 }
 
-export const Todolist: React.FC<PropsType> = (props) => {
+export const Todolist: React.FC<TodoListPropsType> = (props) => {
 
     const tasksComponents = props.tasks.map(t => {
 
         const removeTask = (taskID: string) => {
-            props.removeTask(props.todoListID, taskID)
+            props.removeTask(props.todoListID, taskID);
         }
         const changeTaskStatus = (taskID: string, status: boolean) => {
             props.changeTaskStatus(props.todoListID, taskID, status);
+        }
+        const changeTaskTitle = (taskID: string, title: string) => {
+            props.changeTaskTitle(props.todoListID, taskID, title);
         }
         return (
             <Task
@@ -36,6 +40,7 @@ export const Todolist: React.FC<PropsType> = (props) => {
                 isDone={t.isDone}
                 removeTask={removeTask}
                 changeTaskStatus={changeTaskStatus}
+                changeTaskTitle={changeTaskTitle}
             />
         )
     })
@@ -53,6 +58,7 @@ export const Todolist: React.FC<PropsType> = (props) => {
                 title={props.title}
                 todoListID={props.todoListID}
                 removeTodoList={props.removeTodoList}
+                changeTodoListTitle={props.changeTodoListTitle}
             />
             <AddItemForm addTask={addTask}/>
             {tasksComponents.length > 0

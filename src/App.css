@@ -28,13 +28,3 @@
 .not-found {
     margin: 5px 0;
 }
-
-.task-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.task-header button {
-    height: 20px;
-    margin-left: 5px;
-}

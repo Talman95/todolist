@@ -2,11 +2,14 @@ import React, {FC, KeyboardEvent, useState} from 'react';
 import {MyInput} from "./components/MyInput";
 import {MyButton} from "./components/MyButton";
 
-type PropsType = {
+type AddItemFormPropsType = {
     addTask: (title: string) => void
 }
 
-export const AddItemForm: FC<PropsType> = ({addTask}) => {
+export const AddItemForm: FC<AddItemFormPropsType> = (
+    {addTask}
+) => {
+
     const [titleForm, setTitleForm] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
 
