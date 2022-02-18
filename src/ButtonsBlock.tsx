@@ -1,30 +1,40 @@
 import React, {FC} from 'react';
-import {MyButton} from "./components/MyButton";
 import {FilterValueType} from "./App";
+import {Button, ButtonGroup} from "@material-ui/core";
 
 type PropsType = {
-    onClickSetFilter: (filterValue: FilterValueType) => void
+    setFilterValue: (filterValue: FilterValueType) => () => void
     filterValue: FilterValueType
 }
 
-export const ButtonsBlock: FC<PropsType> = ({onClickSetFilter, filterValue}) => {
+export const ButtonsBlock: FC<PropsType> = (
+    {
+        setFilterValue, filterValue
+    }) => {
     return (
-        <div>
-            <MyButton
-                name={'All'}
-                callback={() => onClickSetFilter('All')}
-                className={filterValue === 'All' ? 'active-filter' : ''}
-            />
-            <MyButton
-                name={'Active'}
-                callback={() => onClickSetFilter('Active')}
-                className={filterValue === 'Active' ? 'active-filter' : ''}
-            />
-            <MyButton
-                name={'Completed'}
-                callback={() => onClickSetFilter('Completed')}
-                className={filterValue === 'Completed' ? 'active-filter' : ''}
-            />
-        </div>
+        <ButtonGroup
+            size={"small"}
+            variant={"contained"}
+            fullWidth
+        >
+            <Button
+                color={filterValue === "All" ? "secondary" : "primary"}
+                onClick={setFilterValue('All')}
+            >
+                All
+            </Button>
+            <Button
+                color={filterValue === "Active" ? "secondary" : "primary"}
+                onClick={setFilterValue('Active')}
+            >
+                Active
+            </Button>
+            <Button
+                color={filterValue === "Completed" ? "secondary" : "primary"}
+                onClick={setFilterValue('Completed')}
+            >
+                Completed
+            </Button>
+        </ButtonGroup>
     );
 };

@@ -1,5 +1,5 @@
-import React, {FC, KeyboardEvent, useState} from 'react';
-import {MyInput} from "./components/MyInput";
+import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import {TextField} from "@material-ui/core";
 
 type EditableSpanPropsType = {
     title: string
@@ -7,12 +7,12 @@ type EditableSpanPropsType = {
 }
 
 export const EditableSpan: FC<EditableSpanPropsType> = (
-    {title, changeTitle}
-) => {
+    {
+        title, changeTitle
+    }) => {
 
     const [titleSpan, setTitleSpan] = useState<string>(title);
     const [editMode, setEditMode] = useState<boolean>(false);
-    const [error, setError] = useState<boolean>(false);
 
     const onEditMode = () => {
         setEditMode(true)
@@ -22,8 +22,6 @@ export const EditableSpan: FC<EditableSpanPropsType> = (
         if (trimTitle !== '') {
             changeTitle(trimTitle);
             setEditMode(false);
-        } else {
-            setError(true);
         }
     }
     const onEnterPress = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -31,28 +29,24 @@ export const EditableSpan: FC<EditableSpanPropsType> = (
             offEditMode()
         }
     }
-    const onChangeSpanTitle = (newTitle: string) => {
-        setTitleSpan(newTitle);
-        setError(false);
+    const onChangeSetUserText = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitleSpan(e.currentTarget.value);
     }
-    const inputClassName = error ? 'error' : '';
 
     return (
         <span>
             {editMode
                 ?
-                <MyInput
+                <TextField
+                    autoFocus
                     value={titleSpan}
-                    onChangeCallback={onChangeSpanTitle}
-                    onKeyPressCallback={onEnterPress}
-                    className={inputClassName}
-                    onBlurCallback={offEditMode}
-                    autoFocus={true}
+                    onChange={onChangeSetUserText}
+                    onBlur={offEditMode}
+                    onKeyPress={onEnterPress}
+                    style={{width: "85%"}}
                 />
                 :
-                <span
-                    onDoubleClick={onEditMode}
-                >
+                <span onDoubleClick={onEditMode}>
                     {titleSpan}
                 </span>
             }

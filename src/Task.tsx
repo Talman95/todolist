@@ -1,7 +1,7 @@
-import React from 'react';
-import {MyButton} from "./components/MyButton";
-import {MyCheckbox} from "./components/MyCheckbox";
+import React, {ChangeEvent, FC} from 'react';
 import {EditableSpan} from "./EditableSpan";
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import {Checkbox, IconButton, ListItem} from "@material-ui/core";
 
 type TaskPropsType = {
     taskID: string
@@ -12,7 +12,7 @@ type TaskPropsType = {
     changeTaskTitle: (taskID: string, title: string) => void
 }
 
-export const Task: React.FC<TaskPropsType> = (
+export const Task: FC<TaskPropsType> = (
     {
         taskID, title, isDone,
         removeTask, changeTaskStatus,
@@ -22,23 +22,29 @@ export const Task: React.FC<TaskPropsType> = (
     const onClickRemoveTask = () => {
         removeTask(taskID);
     }
-    const onChangeTaskStatus = (status: boolean) => {
-        changeTaskStatus(taskID, status);
+    const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+        changeTaskStatus(taskID, e.currentTarget.checked);
     }
     const onChangeTaskTitle = (newTitle: string) => {
         changeTaskTitle(taskID, newTitle)
     }
     return (
-        <li className={isDone ? 'is-done': ''}>
-            <MyCheckbox
-                status={isDone}
-                callback={onChangeTaskStatus}
+        <ListItem divider>
+            <Checkbox
+                checked={isDone}
+                color={"primary"}
+                size={"small"}
+                onChange={onChangeTaskStatus}
             />
-            <MyButton
-                name={'X'}
-                callback={onClickRemoveTask}
-            />
-            <EditableSpan title={title} changeTitle={onChangeTaskTitle} />
-        </li>
+            <span className={isDone ? "is-done" : ""}>
+                <EditableSpan title={title} changeTitle={onChangeTaskTitle}/>
+            </span>
+            <IconButton
+                onClick={onClickRemoveTask}
+                size={"small"}
+            >
+                <DeleteOutlineIcon/>
+            </IconButton>
+        </ListItem>
     );
 };

@@ -1,53 +1,55 @@
-import React, {FC, KeyboardEvent, useState} from 'react';
-import {MyInput} from "./components/MyInput";
-import {MyButton} from "./components/MyButton";
+import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import {IconButton, TextField} from "@material-ui/core";
+import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
 
 type AddItemFormPropsType = {
-    addTask: (title: string) => void
+    addItem: (title: string) => void
 }
 
 export const AddItemForm: FC<AddItemFormPropsType> = (
-    {addTask}
+    {addItem}
 ) => {
 
-    const [titleForm, setTitleForm] = useState<string>('');
+    const [title, setTitleForm] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
 
     const onClickAddItem = () => {
-        let trimTitle = titleForm.trim();
+        let trimTitle = title.trim();
         if (trimTitle !== '') {
-            addTask(trimTitle);
+            addItem(trimTitle);
         } else {
             setError(true);
         }
         setTitleForm('');
     }
-    const onChangeTaskItem = (message: string) => {
-        setTitleForm(message);
+    const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitleForm(e.currentTarget.value);
         setError(false);
     }
-    const onEnterPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    const onEnterPressAddItem = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             onClickAddItem();
         }
     }
-    const inputClassName = error ? 'error' : '';
 
     return (
-        <div>
-            <MyInput
-                value={titleForm}
-                onChangeCallback={onChangeTaskItem}
-                onKeyPressCallback={onEnterPressHandler}
-                className={inputClassName}
+        <div style={{textAlign: "center"}}>
+            <TextField
+                value={title}
+                onChange={onChangeSetTitle}
+                onKeyPress={onEnterPressAddItem}
+                label={"Title"}
+                error={error}
+                variant={"outlined"}
+                size={"small"}
+                helperText={error && "Title is required!"}
             />
-            <MyButton
-                name={'+'}
-                callback={onClickAddItem}
-            />
-            <div className={'error-message'}>
-                {error && 'Title is require!'}
-            </div>
+            <IconButton
+                onClick={onClickAddItem}
+                color={'primary'}
+            >
+                <AddBoxOutlinedIcon/>
+            </IconButton>
         </div>
     );
 };

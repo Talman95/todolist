@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Task} from "./Task";
 import {FilterValueType, TaskType} from "./App";
-import {TaskHeader} from "./TaskHeader";
+import {TodolistHeader} from "./TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock";
 import {AddItemForm} from "./AddItemForm";
+import {List} from "@material-ui/core";
 
 type TodoListPropsType = {
     todoListID: string
@@ -19,7 +20,7 @@ type TodoListPropsType = {
     changeTodoListTitle: (todoListID: string, title: string) => void
 }
 
-export const Todolist: React.FC<TodoListPropsType> = (props) => {
+export const Todolist: FC<TodoListPropsType> = (props) => {
 
     const tasksComponents = props.tasks.map(t => {
 
@@ -45,7 +46,7 @@ export const Todolist: React.FC<TodoListPropsType> = (props) => {
         )
     })
 
-    const onClickSetFilter = (filterValue: FilterValueType) => {
+    const onClickSetFilter = (filterValue: FilterValueType) => () => {
         props.changeFilterValue(props.todoListID, filterValue);
     }
     const addTask = (title: string) => {
@@ -53,25 +54,20 @@ export const Todolist: React.FC<TodoListPropsType> = (props) => {
     }
 
     return (
-        <div>
-            <TaskHeader
+        <div className={'todolist'}>
+            <TodolistHeader
                 title={props.title}
                 todoListID={props.todoListID}
                 removeTodoList={props.removeTodoList}
                 changeTodoListTitle={props.changeTodoListTitle}
             />
-            <AddItemForm addTask={addTask}/>
-            {tasksComponents.length > 0
-                ?
-                <ul>{tasksComponents}</ul>
-                :
-                <div className={'not-found'}>
-                    Tasks not found
-                </div>
-            }
+            <AddItemForm addItem={addTask}/>
+            <List>
+                {tasksComponents}
+            </List>
             <ButtonsBlock
                 filterValue={props.filterValue}
-                onClickSetFilter={onClickSetFilter}
+                setFilterValue={onClickSetFilter}
             />
         </div>
     )
