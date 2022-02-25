@@ -111,11 +111,15 @@ function App() {
     const changeTodoListTitle = (todoListID: string, title: string) => {
         setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, title} : tl));
     }
+
     const todoListsComponents = todoLists.map(tl => {
         const tasksForRender = getFilteredTasks(tl);
         return (
             <Grid item key={tl.id}>
-                <Paper elevation={8} style={{padding: "10px"}}>
+                <Paper
+                    elevation={8}
+                    style={{padding: "10px"}}
+                >
                     <Todolist
                         todoListID={tl.id}
                         title={tl.title}
