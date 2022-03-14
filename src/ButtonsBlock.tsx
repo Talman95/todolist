@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {FilterValueType} from "./App";
+import {FilterValueType} from "./AppWithRedux";
 import {Button, ButtonGroup} from "@material-ui/core";
 
 type PropsType = {
@@ -7,10 +7,7 @@ type PropsType = {
     filterValue: FilterValueType
 }
 
-export const ButtonsBlock: FC<PropsType> = (
-    {
-        setFilterValue, filterValue
-    }) => {
+export const ButtonsBlock: FC<PropsType> = ({setFilterValue, filterValue}) => {
     return (
         <ButtonGroup
             size={"small"}

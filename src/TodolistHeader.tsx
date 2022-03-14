@@ -5,32 +5,19 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 type TodolistHeaderPropsType = {
     title: string
-    todoListID: string
-    removeTodoList: (todoListID: string) => void
-    changeTodoListTitle: (todoListID: string, title: string) => void
+    removeTodoList: () => void
+    changeTodoListTitle: () => (title: string) => void
 }
 
-export const TodolistHeader: FC<TodolistHeaderPropsType> = (
-    {
-        title, todoListID,
-        removeTodoList, changeTodoListTitle
-    }
-) => {
-    const onClickRemoveTodoList = () => {
-        removeTodoList(todoListID)
-    }
-    const onChangeTodoListTitle = (title: string) => {
-        changeTodoListTitle(todoListID, title)
-    }
-
+export const TodolistHeader: FC<TodolistHeaderPropsType> = ({title, removeTodoList, changeTodoListTitle}) => {
     return (
         <h3 style={{textAlign: "center"}}>
             <EditableSpan
                 title={title}
-                changeTitle={onChangeTodoListTitle}
+                changeTitle={changeTodoListTitle}
             />
             <IconButton
-                onClick={onClickRemoveTodoList}
+                onClick={removeTodoList}
             >
                 <DeleteIcon/>
             </IconButton>

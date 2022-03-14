@@ -1,37 +1,44 @@
 import React, {FC} from 'react';
 import {Task} from "./Task";
-import {FilterValueType, TaskType} from "./App";
 import {TodolistHeader} from "./TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock";
 import {AddItemForm} from "./AddItemForm";
 import {List} from "@material-ui/core";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "./store/store";
+import {FilterValueType, TaskType, TodoListType} from "./AppWithRedux";
+import {AddTaskAC, ChangeStatusAC, ChangeTaskTitleAC, RemoveTaskAC} from "./store/tasks-reducer";
+import {ChangeFilterValueAC, ChangeTodoListTitleAC, RemoveTodoListAC} from "./store/todolists-reducer";
 
 type TodoListPropsType = {
     todoListID: string
-    title: string
-    filterValue: FilterValueType
-    tasks: TaskType[]
-    removeTask: (todoListID: string, taskID: string) => void
-    addTask: (todoListID: string, title: string) => void
-    changeTaskStatus: (todoListID: string, taskID: string, status: boolean) => void
-    changeFilterValue: (todoListID: string, filter: FilterValueType) => void
-    changeTaskTitle: (todoListID: string, taskID: string, title: string) => void
-    removeTodoList: (todoListID: string) => void
-    changeTodoListTitle: (todoListID: string, title: string) => void
 }
 
 export const Todolist: FC<TodoListPropsType> = (props) => {
 
-    const tasksComponents = props.tasks.map(t => {
+    let tasks = useSelector<AppStateType, TaskType[]>(state => state.tasks[props.todoListID])
+    const todoList = useSelector<AppStateType, TodoListType>(state =>
+        state.todoLists.filter(tl => tl.id === props.todoListID)[0])
+
+    const dispatch = useDispatch()
+
+    if (todoList.filterValue === "Active") {
+        tasks = tasks.filter(t => !t.isDone);
+    }
+    if (todoList.filterValue === "Completed") {
+        tasks = tasks.filter(t => t.isDone)
+    }
+
+    const tasksComponents = tasks.map(t => {
 
         const removeTask = (taskID: string) => {
-            props.removeTask(props.todoListID, taskID);
+            dispatch(RemoveTaskAC(props.todoListID, taskID))
         }
         const changeTaskStatus = (taskID: string, status: boolean) => {
-            props.changeTaskStatus(props.todoListID, taskID, status);
+            dispatch(ChangeStatusAC(props.todoListID, taskID, status));
         }
         const changeTaskTitle = (taskID: string, title: string) => {
-            props.changeTaskTitle(props.todoListID, taskID, title);
+            dispatch(ChangeTaskTitleAC(props.todoListID, taskID, title));
         }
         return (
             <Task
@@ -46,27 +53,32 @@ export const Todolist: FC<TodoListPropsType> = (props) => {
         )
     })
 
+    const removeTodoList = () => {
+        dispatch(RemoveTodoListAC(props.todoListID))
+    }
+    const changeTodoListTitle = () => (title: string) => {
+        dispatch(ChangeTodoListTitleAC(props.todoListID, title))
+    }
     const onClickSetFilter = (filterValue: FilterValueType) => () => {
-        props.changeFilterValue(props.todoListID, filterValue);
+        dispatch(ChangeFilterValueAC(props.todoListID, filterValue));
     }
     const addTask = (title: string) => {
-        props.addTask(props.todoListID, title)
+        dispatch(AddTaskAC(props.todoListID, title))
     }
 
     return (
         <div className={'todolist'}>
             <TodolistHeader
-                title={props.title}
-                todoListID={props.todoListID}
-                removeTodoList={props.removeTodoList}
-                changeTodoListTitle={props.changeTodoListTitle}
+                title={todoList.title}
+                removeTodoList={removeTodoList}
+                changeTodoListTitle={changeTodoListTitle}
             />
             <AddItemForm addItem={addTask}/>
             <List>
                 {tasksComponents}
             </List>
             <ButtonsBlock
-                filterValue={props.filterValue}
+                filterValue={todoList.filterValue}
                 setFilterValue={onClickSetFilter}
             />
         </div>
