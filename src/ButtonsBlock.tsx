@@ -1,13 +1,13 @@
-import React, {FC} from 'react';
-import {FilterValueType} from "./AppWithRedux";
+import React, {FC, memo} from 'react';
 import {Button, ButtonGroup} from "@material-ui/core";
+import {FilterValuesType} from "./store/todolists-reducer";
 
 type PropsType = {
-    setFilterValue: (filterValue: FilterValueType) => () => void
-    filterValue: FilterValueType
+    setFilterValue: (filterValue: FilterValuesType) => void
+    filterValue: FilterValuesType
 }
 
-export const ButtonsBlock: FC<PropsType> = ({setFilterValue, filterValue}) => {
+export const ButtonsBlock: FC<PropsType> = memo(({setFilterValue, filterValue}) => {
     return (
         <ButtonGroup
             size={"small"}
@@ -16,22 +16,22 @@ export const ButtonsBlock: FC<PropsType> = ({setFilterValue, filterValue}) => {
         >
             <Button
                 color={filterValue === "All" ? "secondary" : "primary"}
-                onClick={setFilterValue('All')}
+                onClick={() => setFilterValue('All')}
             >
                 All
             </Button>
             <Button
                 color={filterValue === "Active" ? "secondary" : "primary"}
-                onClick={setFilterValue('Active')}
+                onClick={() => setFilterValue('Active')}
             >
                 Active
             </Button>
             <Button
                 color={filterValue === "Completed" ? "secondary" : "primary"}
-                onClick={setFilterValue('Completed')}
+                onClick={() => setFilterValue('Completed')}
             >
                 Completed
             </Button>
         </ButtonGroup>
     );
-};
+});

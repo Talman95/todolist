@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, FC, KeyboardEvent, memo, useState} from 'react';
 import {IconButton, TextField} from "@material-ui/core";
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
 
@@ -6,9 +6,7 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm: FC<AddItemFormPropsType> = (
-    {addItem}
-) => {
+export const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem}) => {
 
     const [title, setTitleForm] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
@@ -18,13 +16,13 @@ export const AddItemForm: FC<AddItemFormPropsType> = (
         if (trimTitle !== '') {
             addItem(trimTitle);
         } else {
-            setError(true);
+            !error && setError(true);
         }
         setTitleForm('');
     }
     const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        error && setError(false);
         setTitleForm(e.currentTarget.value);
-        setError(false);
     }
     const onEnterPressAddItem = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -52,4 +50,4 @@ export const AddItemForm: FC<AddItemFormPropsType> = (
             </IconButton>
         </div>
     );
-};
+})

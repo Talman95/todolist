@@ -1,50 +1,52 @@
-import React, {ChangeEvent, FC} from 'react';
+import React, {ChangeEvent, FC, memo, useCallback} from 'react';
 import {EditableSpan} from "./EditableSpan";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import {Checkbox, IconButton, ListItem} from "@material-ui/core";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "./store/store";
+import {ChangeStatusAC, ChangeTaskTitleAC, RemoveTaskAC, TasksActionsType, TaskType} from "./store/tasks-reducer";
+import {Dispatch} from "redux";
 
 type TaskPropsType = {
+    todoListID: string
     taskID: string
-    title: string
-    isDone: boolean
-    removeTask: (taskID: string) => void
-    changeTaskStatus: (taskID: string, status: boolean) => void
-    changeTaskTitle: (taskID: string, title: string) => void
 }
 
-export const Task: FC<TaskPropsType> = (
-    {
-        taskID, title, isDone,
-        removeTask, changeTaskStatus,
-        changeTaskTitle
-    }
-) => {
-    const onClickRemoveTask = () => {
-        removeTask(taskID);
-    }
-    const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-        changeTaskStatus(taskID, e.currentTarget.checked);
-    }
-    const onChangeTaskTitle = (newTitle: string) => {
-        changeTaskTitle(taskID, newTitle)
-    }
+export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
+
+    const task = useSelector<AppStateType, TaskType>(state => state.tasks[todoListID].filter(t => t.id === taskID)[0])
+    const dispatch = useDispatch<Dispatch<TasksActionsType>>()
+
+    const removeTask = useCallback(() => {
+        dispatch(RemoveTaskAC(todoListID, taskID))
+    }, [dispatch, todoListID, taskID])
+
+    const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        let taskStatus = e.currentTarget.checked
+        dispatch(ChangeStatusAC(todoListID, taskID, taskStatus));
+    }, [dispatch, todoListID, taskID])
+
+    const changeTaskTitle = useCallback((title: string) => {
+        dispatch(ChangeTaskTitleAC(todoListID, taskID, title));
+    }, [dispatch, todoListID, taskID])
+
     return (
         <ListItem divider>
             <Checkbox
-                checked={isDone}
+                checked={task.isDone}
                 color={"primary"}
                 size={"small"}
-                onChange={onChangeTaskStatus}
+                onChange={changeTaskStatus}
             />
-            <span className={isDone ? "is-done" : ""}>
-                <EditableSpan title={title} changeTitle={onChangeTaskTitle}/>
+            <span className={task.isDone ? "is-done" : ""}>
+                <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
             </span>
             <IconButton
-                onClick={onClickRemoveTask}
+                onClick={removeTask}
                 size={"small"}
             >
                 <DeleteOutlineIcon/>
             </IconButton>
         </ListItem>
     );
-};
+});
