@@ -13,13 +13,25 @@ export const todolistAPI = {
         return instance.get<TodosType[]>('todo-lists')
     },
     createTodolist(title: string) {
-        return instance.post<CreateTodoResponseType>('todo-lists', {title})
+        return instance.post<CommonResponseType<{ item: TodosType }>>('todo-lists', {title})
     },
     deleteTodolist(todoListID: string) {
-        return instance.delete<DeleteAndUpdateTodoResponseType>(`todo-lists/${todoListID}`)
+        return instance.delete<CommonResponseType<{}>>(`todo-lists/${todoListID}`)
     },
     updateTodolist(todoListID: string, title: string) {
-        return instance.put<DeleteAndUpdateTodoResponseType>(`todo-lists/${todoListID}`, {title})
+        return instance.put<CommonResponseType<{}>>(`todo-lists/${todoListID}`, {title})
+    },
+    getTasks(todoListID: string) {
+        return instance.get<TasksType>(`todo-lists/${todoListID}/tasks`)
+    },
+    createTask(todoListID: string, title: string) {
+        return instance.post<CommonResponseType<{ item: TaskType }>>(`todo-lists/${todoListID}/tasks`, {title})
+    },
+    deleteTask(todoListID: string, taskID: string) {
+        return instance.delete<CommonResponseType<{}>>(`/todo-lists/${todoListID}/tasks/${taskID}`)
+    },
+    updateTask(todoListID: string, taskID: string, newTask: UpdatedTaskModel) {
+        return instance.put<CommonResponseType<{ item: TaskType }>>(`/todo-lists/${todoListID}/tasks/${taskID}`, {...newTask})
     },
 }
 
@@ -29,17 +41,34 @@ type TodosType = {
     order: number
     title: string
 }
-type CreateTodoResponseType = {
-    data: {
-        item: TodosType
-    }
+type CommonResponseType<T> = {
     fieldsErrors: string[]
     resultCode: number
     messages: string[]
+    data: T
 }
-type DeleteAndUpdateTodoResponseType = {
-    data: {}
-    fieldsErrors: string[]
-    messages: string[]
-    resultCode: number
+type TasksType = {
+    error: null | string
+    items: TaskType []
+    totalCount: 0
+}
+type TaskType = {
+    addedDate: string
+    deadline: any
+    description: any
+    id: string
+    order: number
+    priority: number
+    startDate: any
+    status: number
+    title: string
+    todoListId: string
+}
+type UpdatedTaskModel = {
+    title: string
+    description: string | null
+    status: number
+    priority: number
+    startDate: string | null
+    deadline: string | null
 }
