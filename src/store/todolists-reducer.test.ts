@@ -14,8 +14,8 @@ let startState: TodoListsStateType[];
 
 beforeEach(() => {
     startState = [
-        {id: todoListID1, title: 'What to learn', filterValue: 'All'},
-        {id: todoListID2, title: 'What to buy', filterValue: 'All'}
+        {id: todoListID1, addedDate: '', order: 0, title: 'What to learn', filterValue: 'All'},
+        {id: todoListID2, addedDate: '', order: 0, title: 'What to buy', filterValue: 'All'}
     ]
 })
 
@@ -45,8 +45,8 @@ test('correct todolist should change title', () => {
     const endState = todoListsReducer(startState, action)
 
     expect(endState).toEqual([
-        {id: todoListID1, title: 'New title', filterValue: 'All'},
-        {id: todoListID2, title: 'What to buy', filterValue: 'All'}
+        {id: todoListID1, addedDate: '', order: 0, title: 'New title', filterValue: 'All'},
+        {id: todoListID2, addedDate: '', order: 0, title: 'What to buy', filterValue: 'All'}
     ])
 })
 
@@ -56,7 +56,7 @@ test('correct todolist should changed filter value', () => {
     const endState = todoListsReducer(startState, action)
 
     expect(endState).toEqual([
-        {id: todoListID1, title: 'What to learn', filterValue: 'Active'},
-        {id: todoListID2, title: 'What to buy', filterValue: 'All'}
+        {id: todoListID1, addedDate: '', order: 0, title: 'What to learn', filterValue: 'Active'},
+        {id: todoListID2, addedDate: '', order: 0, title: 'What to buy', filterValue: 'All'}
     ])
 })

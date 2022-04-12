@@ -6,14 +6,16 @@ import {AddItemForm} from "./AddItemForm";
 import {List} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./store/store";
-import {AddTaskAC, TaskType} from "./store/tasks-reducer";
+import {AddTaskAC} from "./store/tasks-reducer";
 import {
     ChangeFilterValueAC,
     ChangeTodoListTitleAC,
     FilterValuesType,
-    RemoveTodoListAC, TodoListsStateType
+    RemoveTodoListAC,
+    TodoListsStateType
 } from "./store/todolists-reducer";
 import {Dispatch} from "redux";
+import {TaskStatuses, TaskType} from "./api/todolist-api";
 
 type TodoListPropsType = {
     todoListID: string
@@ -29,10 +31,10 @@ export const Todolist: FC<TodoListPropsType> = memo((props) => {
     const dispatch = useDispatch<Dispatch>()
 
     if (todoList.filterValue === "Active") {
-        tasks = tasks.filter(t => !t.isDone);
+        tasks = tasks.filter(t => t.status === TaskStatuses.New);
     }
     if (todoList.filterValue === "Completed") {
-        tasks = tasks.filter(t => t.isDone)
+        tasks = tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
     const tasksComponents = tasks.map(t => {
