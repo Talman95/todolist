@@ -6,12 +6,12 @@ import {AddItemForm} from "./AddItemForm";
 import {List} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./store/store";
-import {AddTaskAC} from "./store/tasks-reducer";
+import {addTaskAC} from "./store/tasks-reducer";
 import {
-    ChangeFilterValueAC,
-    ChangeTodoListTitleAC,
+    changeFilterValueAC,
+    changeTodoListTitleAC,
     FilterValuesType,
-    RemoveTodoListAC,
+    removeTodoListAC,
     TodoListsStateType
 } from "./store/todolists-reducer";
 import {Dispatch} from "redux";
@@ -48,19 +48,19 @@ export const Todolist: FC<TodoListPropsType> = memo((props) => {
     })
 
     const removeTodoList = useCallback(() => {
-        dispatch(RemoveTodoListAC(props.todoListID))
+        dispatch(removeTodoListAC(props.todoListID))
     }, [dispatch, props.todoListID])
 
     const changeTodoListTitle = useCallback((title: string) => {
-        dispatch(ChangeTodoListTitleAC(props.todoListID, title))
+        dispatch(changeTodoListTitleAC(props.todoListID, title))
     }, [dispatch, props.todoListID])
 
     const onClickSetFilter = useCallback((filterValue: FilterValuesType) => {
-        dispatch(ChangeFilterValueAC(props.todoListID, filterValue));
+        dispatch(changeFilterValueAC(props.todoListID, filterValue));
     }, [dispatch, props.todoListID])
 
     const addTask = useCallback((title: string) => {
-        dispatch(AddTaskAC(props.todoListID, title))
+        dispatch(addTaskAC(props.todoListID, title))
     }, [dispatch, props.todoListID])
 
     return (

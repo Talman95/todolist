@@ -1,8 +1,8 @@
 import {
-    AddTodoListAC,
-    ChangeFilterValueAC,
-    ChangeTodoListTitleAC,
-    RemoveTodoListAC,
+    addTodoListAC,
+    changeFilterValueAC,
+    changeTodoListTitleAC,
+    removeTodoListAC,
     todoListsReducer,
     TodoListsStateType
 } from "./todolists-reducer";
@@ -20,7 +20,7 @@ beforeEach(() => {
 })
 
 test('correct todolist should be removed', () => {
-    const action = RemoveTodoListAC(todoListID1)
+    const action = removeTodoListAC(todoListID1)
 
     const endState = todoListsReducer(startState, action)
 
@@ -29,7 +29,7 @@ test('correct todolist should be removed', () => {
 })
 
 test('correct todolist should be added', () => {
-    const action = AddTodoListAC('What to read')
+    const action = addTodoListAC('What to read')
 
     const endState = todoListsReducer(startState, action)
 
@@ -40,7 +40,7 @@ test('correct todolist should be added', () => {
 })
 
 test('correct todolist should change title', () => {
-    const action = ChangeTodoListTitleAC(todoListID1, 'New title')
+    const action = changeTodoListTitleAC(todoListID1, 'New title')
 
     const endState = todoListsReducer(startState, action)
 
@@ -51,7 +51,7 @@ test('correct todolist should change title', () => {
 })
 
 test('correct todolist should changed filter value', () => {
-    const action = ChangeFilterValueAC(todoListID1, 'Active')
+    const action = changeFilterValueAC(todoListID1, 'Active')
 
     const endState = todoListsReducer(startState, action)
 

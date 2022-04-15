@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {AddItemForm} from "./AddItemForm";
@@ -9,18 +9,26 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import {AddTodoListAC, TodoListsActionType, TodoListsStateType} from "./store/todolists-reducer";
+import {addTodoListAC, setTodoListsAC, TodoListsActionType, TodoListsStateType} from "./store/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./store/store";
 import {Dispatch} from "redux";
+import {todolistAPI} from "./api/todolist-api";
 
 export const App = () => {
 
     const todoLists = useSelector<AppStateType, TodoListsStateType[]>(state => state.todoLists)
     const dispatch = useDispatch<Dispatch<TodoListsActionType>>()
 
+    useEffect(() => {
+        todolistAPI.getTodolists()
+            .then(res => {
+                dispatch(setTodoListsAC(res.data))
+            })
+    }, [])
+
     const addTodoList = useCallback((title: string) => {
-        const action = AddTodoListAC(title)
+        const action = addTodoListAC(title)
         dispatch(action)
     }, [dispatch])
 
