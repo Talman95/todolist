@@ -80,7 +80,7 @@ export type TaskType = {
     title: string
     todoListId: string
 }
-type UpdatedTaskModel = {
+export type UpdatedTaskModel = {
     title: string
     description: string | null
     status: number

@@ -8,7 +8,7 @@ import {
 } from "./tasks-reducer";
 import {addTodoListAC, removeTodoListAC} from "./todolists-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolist-api";
 
 let todoListID1 = v1()
 let todoListID2 = v1()
@@ -59,7 +59,19 @@ test("task should be deleted", () => {
 })
 
 test("correct task should be added", () => {
-    const action = addTaskAC(todoListID1, 'ReactJS')
+    const newTask: TaskType = {
+        id: '123123',
+        title: 'ReactJS',
+        status: TaskStatuses.New,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        order: 0,
+        priority: TaskPriorities.Low,
+        startDate: '',
+        todoListId: todoListID1,
+    }
+    const action = addTaskAC(todoListID1, newTask)
 
     const endState = tasksReducer(startState, action)
 
