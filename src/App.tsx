@@ -9,17 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import {
-    addTodoListAC,
-    fetchTodoLists,
-    setTodoListsAC,
-    TodoListsActionType,
-    TodoListsStateType
-} from "./store/todolists-reducer";
+import {addTodoListTC, fetchTodoLists, TodoListsStateType} from "./store/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./store/store";
 import {Dispatch} from "redux";
-import {todolistAPI} from "./api/todolist-api";
 
 export const App = () => {
 
@@ -31,8 +24,7 @@ export const App = () => {
     }, [])
 
     const addTodoList = useCallback((title: string) => {
-        const action = addTodoListAC(title)
-        dispatch(action)
+        dispatch(addTodoListTC(title))
     }, [dispatch])
 
     const todoListsComponents = todoLists.map(tl => {

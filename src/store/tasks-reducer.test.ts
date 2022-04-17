@@ -8,7 +8,7 @@ import {
 } from "./tasks-reducer";
 import {addTodoListAC, removeTodoListAC} from "./todolists-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolist-api";
+import {TaskPriorities, TaskStatuses, TaskType, TodoListType} from "../api/todolist-api";
 
 let todoListID1 = v1()
 let todoListID2 = v1()
@@ -98,14 +98,21 @@ test('correct task should change title', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-    const action = addTodoListAC('New todolist')
+    const todoList: TodoListType = {
+        id: '111-111',
+        addedDate: '',
+        order: 1,
+        title: 'What to read'
+    }
+
+    const action = addTodoListAC(todoList)
 
     const endState = tasksReducer(startState, action)
 
     const keys = Object.keys(endState)
 
     expect(keys.length).toBe(3)
-    expect(endState[action.todoListID]).toEqual([])
+    expect(endState[action.todoList.id]).toEqual([])
 })
 
 test('property with todolist should be deleted', () => {

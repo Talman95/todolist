@@ -9,10 +9,10 @@ import {AppStateType} from "./store/store";
 import {addTaskTC, fetchTasksTC} from "./store/tasks-reducer";
 import {
     changeFilterValueAC,
-    changeTodoListTitleAC,
     FilterValuesType,
-    removeTodoListAC,
-    TodoListsStateType
+    removeTodoListTC,
+    TodoListsStateType,
+    updateTodoListTitleTC
 } from "./store/todolists-reducer";
 import {Dispatch} from "redux";
 import {TaskStatuses, TaskType} from "./api/todolist-api";
@@ -52,11 +52,11 @@ export const Todolist: FC<TodoListPropsType> = memo((props) => {
     })
 
     const removeTodoList = useCallback(() => {
-        dispatch(removeTodoListAC(props.todoListID))
+        dispatch(removeTodoListTC(props.todoListID))
     }, [dispatch, props.todoListID])
 
     const changeTodoListTitle = useCallback((title: string) => {
-        dispatch(changeTodoListTitleAC(props.todoListID, title))
+        dispatch(updateTodoListTitleTC(props.todoListID, title))
     }, [dispatch, props.todoListID])
 
     const onClickSetFilter = useCallback((filterValue: FilterValuesType) => {
