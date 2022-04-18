@@ -2,7 +2,7 @@ import {
     addTodoListAC,
     changeFilterValueAC,
     changeTodoListTitleAC,
-    removeTodoListAC,
+    removeTodoListAC, setTodoListsAC,
     todoListsReducer,
     TodoListsStateType
 } from "./todolists-reducer";
@@ -30,8 +30,9 @@ test('correct todolist should be removed', () => {
 })
 
 test('correct todolist should be added', () => {
+    const todoListID = v1()
     const todoList: TodoListType = {
-        id: '111-111',
+        id: todoListID,
         addedDate: '',
         order: 1,
         title: 'What to read'
@@ -41,18 +42,18 @@ test('correct todolist should be added', () => {
     const endState = todoListsReducer(startState, action)
 
     expect(endState.length).toBe(3)
-    expect(endState[2].id).toBe('111-111')
-    expect(endState[2].title).toBe('What to read')
-    expect(endState[2].filterValue).toBe('All')
+    expect(endState[0].id).toBe(todoListID)
+    expect(endState[0].title).toBe('What to read')
+    expect(endState[0].filterValue).toBe('All')
 })
 
 test('correct todolist should change title', () => {
-    const action = changeTodoListTitleAC(todoListID1, 'New title')
+    const action = changeTodoListTitleAC(todoListID1, 'What to watch')
 
     const endState = todoListsReducer(startState, action)
 
     expect(endState).toEqual([
-        {id: todoListID1, addedDate: '', order: 0, title: 'New title', filterValue: 'All'},
+        {id: todoListID1, addedDate: '', order: 0, title: 'What to watch', filterValue: 'All'},
         {id: todoListID2, addedDate: '', order: 0, title: 'What to buy', filterValue: 'All'}
     ])
 })
@@ -66,4 +67,12 @@ test('correct todolist should changed filter value', () => {
         {id: todoListID1, addedDate: '', order: 0, title: 'What to learn', filterValue: 'Active'},
         {id: todoListID2, addedDate: '', order: 0, title: 'What to buy', filterValue: 'All'}
     ])
+})
+
+test('correct todolist should be set to the state', () => {
+    const action = setTodoListsAC(startState)
+
+    const endState = todoListsReducer([], action)
+
+    expect(endState.length).toBe(2)
 })
