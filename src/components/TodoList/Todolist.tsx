@@ -1,28 +1,30 @@
 import React, {FC, memo, useCallback, useEffect} from 'react';
-import {Task} from "./Task";
-import {TodolistHeader} from "./TodolistHeader";
-import {ButtonsBlock} from "./ButtonsBlock";
-import {AddItemForm} from "./AddItemForm";
+import {Task} from "../Task/Task";
+import {TodolistHeader} from "./TodoListHeader/TodolistHeader";
+import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
+import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "./store/store";
-import {addTaskTC, fetchTasksTC} from "./store/tasks-reducer";
+import {AppStateType} from "../../store/store";
+import {addTaskTC, fetchTasksTC} from "../Task/tasks-reducer";
 import {
     changeFilterValueAC,
     FilterValuesType,
     removeTodoListTC,
     TodoListsStateType,
     updateTodoListTitleTC
-} from "./store/todolists-reducer";
+} from "./todolists-reducer";
 import {Dispatch} from "redux";
-import {TaskStatuses, TaskType} from "./api/todolist-api";
+import {TaskStatuses, TaskType} from "../../api/todolist-api";
+import {RequestStatusType} from "../../app/app-reducer";
 
 type TodoListPropsType = {
     todoListID: string
+    entityStatus: RequestStatusType
+    demo?: boolean
 }
 
-export const Todolist: FC<TodoListPropsType> = memo((props) => {
-
+export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...props}) => {
     let tasks = useSelector<AppStateType, TaskType[]>(state => state.tasks[props.todoListID])
 
     const todoList = useSelector<AppStateType, TodoListsStateType>(state =>
@@ -31,6 +33,9 @@ export const Todolist: FC<TodoListPropsType> = memo((props) => {
     const dispatch = useDispatch<Dispatch<any>>()
 
     useEffect(() => {
+        if (demo) {
+            return
+        }
         dispatch(fetchTasksTC(todoList.id))
     }, [])
 
@@ -73,8 +78,9 @@ export const Todolist: FC<TodoListPropsType> = memo((props) => {
                 title={todoList.title}
                 removeTodoList={removeTodoList}
                 changeTodoListTitle={changeTodoListTitle}
+                entityStatus={entityStatus}
             />
-            <AddItemForm addItem={addTask}/>
+            <AddItemForm addItem={addTask} disabled={entityStatus === 'loading'}/>
             <List>
                 {tasksComponents}
             </List>

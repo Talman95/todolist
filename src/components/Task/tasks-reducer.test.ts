@@ -1,14 +1,14 @@
 import {
     addTaskAC,
-    changeStatusAC,
+    changeTaskStatusAC,
     changeTaskTitleAC,
     removeTaskAC, setTasksAC,
     tasksReducer,
     TasksStateType
 } from "./tasks-reducer";
-import {addTodoListAC, removeTodoListAC, setTodoListsAC} from "./todolists-reducer";
+import {addTodoListAC, removeTodoListAC, setTodoListsAC} from "../TodoList/todolists-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses, TaskType, TodoListType} from "../api/todolist-api";
+import {TaskPriorities, TaskStatuses, TaskType, TodoListType} from "../../api/todolist-api";
 
 let todoListID1 = v1()
 let todoListID2 = v1()
@@ -104,7 +104,7 @@ test("correct task should be added", () => {
 })
 
 test('correct task should change status', () => {
-    const action = changeStatusAC(todoListID1, '1', TaskStatuses.New)
+    const action = changeTaskStatusAC(todoListID1, '1', TaskStatuses.New)
 
     const endState = tasksReducer(startState, action)
 

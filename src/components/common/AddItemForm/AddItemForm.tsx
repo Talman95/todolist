@@ -4,9 +4,10 @@ import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
-export const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem}) => {
+export const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem, disabled = false}) => {
 
     const [title, setTitleForm] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
@@ -41,10 +42,12 @@ export const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem}) => {
                 variant={"outlined"}
                 size={"small"}
                 helperText={error && "Title is required!"}
+                disabled={disabled}
             />
             <IconButton
                 onClick={onClickAddItem}
                 color={'primary'}
+                disabled={disabled}
             >
                 <AddBoxOutlinedIcon/>
             </IconButton>

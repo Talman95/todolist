@@ -1,6 +1,6 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import {AddItemForm} from '../AddItemForm';
+import {AddItemForm} from './AddItemForm';
 import {action} from "@storybook/addon-actions";
 
 
@@ -18,4 +18,11 @@ export const AddItemFormExample = Template.bind({});
 
 AddItemFormExample.args = {
     addItem: action('Button inside form clicked')
+};
+
+export const AddItemFormDisabledExample = Template.bind({});
+
+AddItemFormDisabledExample.args = {
+    addItem: action('Button inside form clicked'),
+    disabled: true
 };

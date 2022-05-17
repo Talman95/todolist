@@ -2,19 +2,21 @@ import React, {ReactNode} from 'react';
 import {Provider} from "react-redux"
 import {AppStateType} from "./store"
 import {combineReducers, createStore} from 'redux';
-import {tasksReducer} from './tasks-reducer';
-import {todoListsReducer} from "./todolists-reducer";
+import {tasksReducer} from '../components/Task/tasks-reducer';
+import {todoListsReducer} from "../components/TodoList/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
+import {appReducer} from "../app/app-reducer";
 
 const rootReducer = combineReducers({
     todoLists: todoListsReducer,
     tasks: tasksReducer,
+    app: appReducer,
 })
 
 const initialGlobalState = {
     todoLists: [
-        {id: "todolistId1", addedDate: '', order: 0, title: "What to learn", filterValue: "All"},
-        {id: "todolistId2", addedDate: '', order: 0, title: "What to buy", filterValue: "All"},
+        {id: "todolistId1", addedDate: '', order: 0, title: "What to learn", filterValue: "All", entityStatus: 'idle'},
+        {id: "todolistId2", addedDate: '', order: 0, title: "What to buy", filterValue: "All", entityStatus: 'loading'},
     ],
     tasks: {
         ["todolistId1"]: [
@@ -41,6 +43,10 @@ const initialGlobalState = {
                 status: TaskStatuses.Completed, todoListId: 'todolistId2',
             }
         ]
+    },
+    app: {
+        status: 'idle',
+        errorMessage: null
     }
 };
 

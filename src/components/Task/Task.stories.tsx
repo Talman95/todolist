@@ -1,8 +1,8 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
-import {Task} from "../Task";
-import {ReduxStoreProviderDecorator} from "../store/ReduxStoreProviderDecorator";
+import {Task} from "./Task";
+import {ReduxStoreProviderDecorator} from "../../store/ReduxStoreProviderDecorator";
 
 
 export default {
