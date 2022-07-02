@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {Todolist} from '../components/TodoList/Todolist';
-import {AddItemForm} from "../components/common/AddItemForm/AddItemForm";
+import {Todolist} from '../features/TodoList/Todolist';
+import {AddItemForm} from "../components/AddItemForm/AddItemForm";
 import {Container, Grid, LinearProgress, Paper} from "@material-ui/core";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import {addTodoListTC, fetchTodoLists, TodoListsStateType} from "../components/TodoList/todolists-reducer";
+import {addTodoListTC, fetchTodoLists, TodoListsStateType} from "../features/TodoList/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../store/store";
 import {Dispatch} from "redux";

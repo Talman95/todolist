@@ -1,12 +1,12 @@
 import React, {FC, memo, useCallback, useEffect} from 'react';
-import {Task} from "../Task/Task";
+import {Task} from "./Task/Task";
 import {TodolistHeader} from "./TodoListHeader/TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
-import {AddItemForm} from "../common/AddItemForm/AddItemForm";
+import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../store/store";
-import {addTaskTC, fetchTasksTC} from "../Task/tasks-reducer";
+import {addTaskTC, fetchTasksTC} from "./Task/tasks-reducer";
 import {
     changeFilterValueAC,
     FilterValuesType,

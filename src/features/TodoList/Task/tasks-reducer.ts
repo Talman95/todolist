@@ -1,8 +1,8 @@
-import {TaskStatuses, TaskType, todolistAPI} from "../../api/todolist-api";
-import {AppStateType, AppThunk} from "../../store/store";
-import {addTodoListAC, removeTodoListAC, setTodoListsAC} from "../TodoList/todolists-reducer";
-import {setAppErrorMessage, setAppStatus} from "../../app/app-reducer";
-import {handleNetworkError, handleServerAppError} from "../../utils/error-utils";
+import {TaskStatuses, TaskType, todolistAPI} from "../../../api/todolist-api";
+import {AppStateType, AppThunk} from "../../../store/store";
+import {addTodoListAC, removeTodoListAC, setTodoListsAC} from "../todolists-reducer";
+import {setAppErrorMessage, setAppStatus} from "../../../app/app-reducer";
+import {handleNetworkError, handleServerAppError} from "../../../utils/error-utils";
 
 
 const initialState: TasksStateType = {}
