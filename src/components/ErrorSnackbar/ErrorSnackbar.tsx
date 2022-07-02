@@ -11,7 +11,7 @@ function Alert(props: AlertProps) {
 
 export const ErrorSnackbar = () => {
     const errorMessage = useSelector<AppStateType, string | null>(state => state.app.errorMessage)
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     const isOpen = errorMessage !== null
 
@@ -19,7 +19,7 @@ export const ErrorSnackbar = () => {
         if (reason === 'clickaway') {
             return;
         }
-        dispatch(setAppErrorMessage(null))
+        dispatch(setAppErrorMessage({errorMessage: null}))
     };
 
     return (

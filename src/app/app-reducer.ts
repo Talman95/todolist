@@ -1,22 +1,25 @@
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
 const initialState: AppReducerStateType = {
     status: 'idle',
     errorMessage: null,
 }
 
-export const appReducer = (state = initialState, action: AppReducerActionsType): AppReducerStateType => {
-    switch (action.type) {
-        case "SET_APP_STATUS":
-            return {...state, status: action.status}
-        case "SET_APP_ERROR_MESSAGE":
-            return {...state, errorMessage: action.errorMessage}
-        default:
-            return state
+export const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers: {
+        setAppStatus: (state, action: PayloadAction<{ status: RequestStatusType }>) => {
+            state.status = action.payload.status
+        },
+        setAppErrorMessage: (state, action: PayloadAction<{ errorMessage: string | null }>) => {
+            state.errorMessage = action.payload.errorMessage
+        }
     }
-}
+})
 
-//actions
-export const setAppStatus = (status: RequestStatusType) => ({type: 'SET_APP_STATUS', status} as const)
-export const setAppErrorMessage = (errorMessage: string | null) => ({type: 'SET_APP_ERROR_MESSAGE', errorMessage} as const)
+export const appReducer = slice.reducer
+export const {setAppStatus, setAppErrorMessage} = slice.actions
 
 //types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

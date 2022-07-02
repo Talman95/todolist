@@ -7,18 +7,18 @@ type DispatchType = Dispatch<ReturnType<typeof setAppErrorMessage> | ReturnType<
 
 export const handleServerAppError = <T>(data: CommonResponseType<T>, dispatch: DispatchType) => {
     if (data.messages.length) {
-        dispatch(setAppErrorMessage(data.messages[0]))
+        dispatch(setAppErrorMessage({errorMessage: data.messages[0]}))
     } else {
-        dispatch(setAppErrorMessage('Some error occurred'))
+        dispatch(setAppErrorMessage({errorMessage: 'Some error occurred'}))
     }
-    dispatch(setAppStatus('failed'))
+    dispatch(setAppStatus({status: 'failed'}))
 }
 
 export const handleNetworkError = (err: any, dispatch: DispatchType) => {
     if (err.message) {
         dispatch(setAppErrorMessage(err.message))
     } else {
-        dispatch(setAppErrorMessage('Some error occurred'))
+        dispatch(setAppErrorMessage({errorMessage: 'Some error occurred'}))
     }
-    dispatch(setAppStatus('failed'))
+    dispatch(setAppStatus({status: 'failed'}))
 }
