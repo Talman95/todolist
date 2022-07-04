@@ -21,7 +21,7 @@ beforeEach(() => {
 })
 
 test('correct todolist should be removed', () => {
-    const action = removeTodoListAC(todoListID1)
+    const action = removeTodoListAC({id: todoListID1})
 
     const endState = todoListsReducer(startState, action)
 
@@ -37,7 +37,7 @@ test('correct todolist should be added', () => {
         order: 1,
         title: 'What to read'
     }
-    const action = addTodoListAC(todoList)
+    const action = addTodoListAC({todoList})
 
     const endState = todoListsReducer(startState, action)
 
@@ -48,7 +48,7 @@ test('correct todolist should be added', () => {
 })
 
 test('correct todolist should change title', () => {
-    const action = changeTodoListTitleAC(todoListID1, 'What to watch')
+    const action = changeTodoListTitleAC({id: todoListID1, title: 'What to watch'})
 
     const endState = todoListsReducer(startState, action)
 
@@ -59,7 +59,7 @@ test('correct todolist should change title', () => {
 })
 
 test('correct todolist should changed filter value', () => {
-    const action = changeFilterValueAC(todoListID1, 'Active')
+    const action = changeFilterValueAC({id: todoListID1, filter: 'Active'})
 
     const endState = todoListsReducer(startState, action)
 
@@ -70,7 +70,7 @@ test('correct todolist should changed filter value', () => {
 })
 
 test('correct todolist should be set to the state', () => {
-    const action = setTodoListsAC(startState)
+    const action = setTodoListsAC({todoLists: startState})
 
     const endState = todoListsReducer([], action)
 

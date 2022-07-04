@@ -21,7 +21,7 @@ test('IDs should be equals', () => {
         title: 'What to read'
     }
 
-    const action = addTodoListAC(todoList)
+    const action = addTodoListAC({todoList})
 
     const endTodoListsState = todoListsReducer(startTodoListsState, action)
     const endTasksState = tasksReducer(startTasksState, action)
@@ -30,15 +30,15 @@ test('IDs should be equals', () => {
     const idFromTasks = keys[0]
     const idFromTodoLists = endTodoListsState[0].id
 
-    expect(idFromTasks).toBe(action.todoList.id)
-    expect(idFromTodoLists).toBe(action.todoList.id)
+    expect(idFromTasks).toBe(action.payload.todoList.id)
+    expect(idFromTodoLists).toBe(action.payload.todoList.id)
 })
 
 test('correct during set todolists IDs should be equals', () => {
-    const action = setTodoListsAC([
+    const action = setTodoListsAC({todoLists: [
         {id: 'todolistId1', addedDate: '', order: 0, title: 'What to learn'},
         {id: 'todolistId2', addedDate: '', order: 0, title: 'What to buy'}
-    ])
+    ]})
 
     const endTodoListsState = todoListsReducer(startTodoListsState, action)
     const endTasksState = tasksReducer(startTasksState, action)

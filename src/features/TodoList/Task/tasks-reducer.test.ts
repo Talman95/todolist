@@ -127,18 +127,18 @@ test('new array should be added when new todolist is added', () => {
         title: 'What to read'
     }
 
-    const action = addTodoListAC(todoList)
+    const action = addTodoListAC({todoList})
 
     const endState = tasksReducer(startState, action)
 
     const keys = Object.keys(endState)
 
     expect(keys.length).toBe(3)
-    expect(endState[action.todoList.id]).toEqual([])
+    expect(endState[action.payload.todoList.id]).toEqual([])
 })
 
 test('property with todolist should be deleted', () => {
-    const action = removeTodoListAC(todoListID2)
+    const action = removeTodoListAC({id: todoListID2})
 
     const endState = tasksReducer(startState, action)
 
@@ -147,11 +147,10 @@ test('property with todolist should be deleted', () => {
     expect(keys.length).toBe(1)
     expect(endState[todoListID2]).not.toBeDefined()
 })
-
 test('correct tasks should be initialization during set todolists', () => {
-    const action = setTodoListsAC([
-        {id: 'todolistId1', addedDate: '', order: 0, title: 'What to learn'}
-    ])
+    const action = setTodoListsAC({todoLists: [
+        {id: 'todolistId1', addedDate: '', order: 0, title: 'What to learn'},
+    ]})
 
     const endState = tasksReducer({}, action)
 
@@ -160,6 +159,7 @@ test('correct tasks should be initialization during set todolists', () => {
     expect(keys.length).toBe(1)
     expect(endState['todolistId1']).toStrictEqual([])
 })
+
 
 test('correct tasks should be added for todolist', () => {
     const action = setTasksAC('todolistId1', [

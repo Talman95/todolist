@@ -1,4 +1,4 @@
-import {TaskStatuses, TaskType, todolistAPI} from "../../../api/todolist-api";
+import {TaskStatuses, TaskType, todolistAPI, TodoListType} from "../../../api/todolist-api";
 import {AppStateType, AppThunk} from "../../../store/store";
 import {addTodoListAC, removeTodoListAC, setTodoListsAC} from "../todolists-reducer";
 import {setAppStatus} from "../../../app/app-reducer";
@@ -7,7 +7,7 @@ import {handleNetworkError, handleServerAppError} from "../../../utils/error-uti
 
 const initialState: TasksStateType = {}
 
-export const tasksReducer = (state = initialState, action: TasksActionsType): TasksStateType => {
+export const tasksReducer = (state = initialState, action: any): TasksStateType => {
     switch (action.type) {
         case 'REMOVE_TASK': {
             return {
@@ -47,19 +47,19 @@ export const tasksReducer = (state = initialState, action: TasksActionsType): Ta
                 )
             }
         }
-        case 'ADD_TODOLIST': {
-            return {...state, [action.todoList.id]: []}
+        case addTodoListAC.type: {
+            return {...state, [action.payload.todoList.id]: []}
         }
-        case 'REMOVE_TODOLIST': {
+        case removeTodoListAC.type: {
             // const {[action.todoListID]: [], ...rest} = {...state}
             // return rest
             const copyState = {...state}
-            delete copyState[action.todoListID]
+            delete copyState[action.payload.id]
             return copyState
         }
-        case 'SET_TODOLISTS': {
+        case setTodoListsAC.type: {
             const copyState = {...state}
-            action.todoLists.forEach(tl => (copyState[tl.id] = []))
+            action.payload.todoLists.forEach((tl: TodoListType) => (copyState[tl.id] = []))
             return copyState
         }
         case 'SET_TASKS': {

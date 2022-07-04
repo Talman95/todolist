@@ -64,8 +64,8 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
         dispatch(updateTodoListTitleTC(props.todoListID, title))
     }, [dispatch, props.todoListID])
 
-    const onClickSetFilter = useCallback((filterValue: FilterValuesType) => {
-        dispatch(changeFilterValueAC(props.todoListID, filterValue));
+    const onClickSetFilter = useCallback((filter: FilterValuesType) => {
+        dispatch(changeFilterValueAC({id: props.todoListID, filter}));
     }, [dispatch, props.todoListID])
 
     const addTask = useCallback((title: string) => {
