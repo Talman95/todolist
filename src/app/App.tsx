@@ -9,21 +9,18 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import {addTodoListTC, fetchTodoLists, TodoListsStateType} from "../features/TodoList/todolists-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../store/store";
-import {Dispatch} from "redux";
+import {addTodoListTC, fetchTodoLists} from "../features/TodoList/todolists-reducer";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {RequestStatusType} from "./app-reducer";
+import {useAppDispatch, useAppSelector} from "./hooks/hooks";
 
 type AppPropsType = {
     demo?: boolean
 }
 
 export const App = ({demo = false}) => {
-    const todoLists = useSelector<AppStateType, TodoListsStateType[]>(state => state.todoLists)
-    const status = useSelector<AppStateType, RequestStatusType>(state => state.app.status)
-    const dispatch = useDispatch<Dispatch<any>>()
+    const todoLists = useAppSelector(state => state.todoLists)
+    const status = useAppSelector(state => state.app.status)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (demo) {

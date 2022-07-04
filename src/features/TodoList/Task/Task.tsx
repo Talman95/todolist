@@ -2,11 +2,9 @@ import React, {ChangeEvent, FC, memo, useCallback} from 'react';
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import {Checkbox, IconButton, ListItem} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../../store/store";
 import {removeTaskTC, updateTaskTC} from "./tasks-reducer";
-import {Dispatch} from "redux";
-import {TaskStatuses, TaskType} from "../../../api/todolist-api";
+import {TaskStatuses} from "../../../api/todolist-api";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks/hooks";
 
 type TaskPropsType = {
     todoListID: string
@@ -14,9 +12,8 @@ type TaskPropsType = {
 }
 
 export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
-
-    const task = useSelector<AppStateType, TaskType>(state => state.tasks[todoListID].filter(t => t.id === taskID)[0])
-    const dispatch = useDispatch<Dispatch<any>>()
+    const task = useAppSelector(state => state.tasks[todoListID].filter(t => t.id === taskID)[0])
+    const dispatch = useAppDispatch()
 
     const removeTask = useCallback(() => {
         dispatch(removeTaskTC(todoListID, taskID))

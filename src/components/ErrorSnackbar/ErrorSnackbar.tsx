@@ -1,17 +1,16 @@
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, {AlertProps} from '@material-ui/lab/Alert';
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../store/store";
 import {setAppErrorMessage} from "../../app/app-reducer";
+import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
 
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export const ErrorSnackbar = () => {
-    const errorMessage = useSelector<AppStateType, string | null>(state => state.app.errorMessage)
-    const dispatch = useDispatch()
+    const errorMessage = useAppSelector(state => state.app.errorMessage)
+    const dispatch = useAppDispatch()
 
     const isOpen = errorMessage !== null
 

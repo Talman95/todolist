@@ -4,19 +4,11 @@ import {TodolistHeader} from "./TodoListHeader/TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../store/store";
 import {addTaskTC, fetchTasksTC} from "./Task/tasks-reducer";
-import {
-    changeFilterValueAC,
-    FilterValuesType,
-    removeTodoListTC,
-    TodoListsStateType,
-    updateTodoListTitleTC
-} from "./todolists-reducer";
-import {Dispatch} from "redux";
-import {TaskStatuses, TaskType} from "../../api/todolist-api";
+import {changeFilterValueAC, FilterValuesType, removeTodoListTC, updateTodoListTitleTC} from "./todolists-reducer";
+import {TaskStatuses} from "../../api/todolist-api";
 import {RequestStatusType} from "../../app/app-reducer";
+import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
 
 type TodoListPropsType = {
     todoListID: string
@@ -25,12 +17,11 @@ type TodoListPropsType = {
 }
 
 export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...props}) => {
-    let tasks = useSelector<AppStateType, TaskType[]>(state => state.tasks[props.todoListID])
-
-    const todoList = useSelector<AppStateType, TodoListsStateType>(state =>
+    let tasks = useAppSelector(state => state.tasks[props.todoListID])
+    const todoList = useAppSelector(state =>
         state.todoLists.filter(tl => tl.id === props.todoListID)[0])
 
-    const dispatch = useDispatch<Dispatch<any>>()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (demo) {

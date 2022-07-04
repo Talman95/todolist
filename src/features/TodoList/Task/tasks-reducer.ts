@@ -1,5 +1,5 @@
 import {TaskType, todolistAPI, UpdatedDomainTaskModel} from "../../../api/todolist-api";
-import {AppStateType, AppThunk} from "../../../store/store";
+import {AppThunk, RootState} from "../../../store/store";
 import {addTodoListAC, removeTodoListAC, setTodoListsAC} from "../todolists-reducer";
 import {setAppStatus} from "../../../app/app-reducer";
 import {handleNetworkError, handleServerAppError} from "../../../utils/error-utils";
@@ -103,7 +103,7 @@ export const addTaskTC = (todoListID: string, title: string): AppThunk => {
     }
 }
 export const updateTaskTC = (todoListID: string, taskID: string, model: UpdateModelType): AppThunk => {
-    return (dispatch, getState: () => AppStateType) => {
+    return (dispatch, getState: () => RootState) => {
         dispatch(setAppStatus({status: 'loading'}))
         const task = getState().tasks[todoListID].find(t => t.id === taskID)
         if (task) {
