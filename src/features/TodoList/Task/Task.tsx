@@ -4,7 +4,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import {Checkbox, IconButton, ListItem} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../store/store";
-import {removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from "./tasks-reducer";
+import {removeTaskTC, updateTaskTC} from "./tasks-reducer";
 import {Dispatch} from "redux";
 import {TaskStatuses, TaskType} from "../../../api/todolist-api";
 
@@ -24,11 +24,11 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
 
     const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let taskStatus = e.currentTarget.checked
-        dispatch(updateTaskStatusTC(todoListID, taskID, taskStatus ? TaskStatuses.Completed : TaskStatuses.New));
+        dispatch(updateTaskTC(todoListID, taskID, {status: taskStatus ? TaskStatuses.Completed : TaskStatuses.New}));
     }, [dispatch, todoListID, taskID])
 
     const changeTaskTitle = useCallback((title: string) => {
-        dispatch(updateTaskTitleTC(todoListID, taskID, title));
+        dispatch(updateTaskTC(todoListID, taskID, {title}));
     }, [dispatch, todoListID, taskID])
 
     return (

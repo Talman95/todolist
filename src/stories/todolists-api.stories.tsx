@@ -144,11 +144,11 @@ export const UpdateTask = () => {
     const [taskID, setTaskID] = useState('')
     const newTask = {
         title: 'update update update update',
-        description: null,
+        description: '',
         status: 0,
         priority: 1,
-        startDate: null,
-        deadline: null,
+        startDate: '',
+        deadline: '',
     }
 
     const updateTask = () => {

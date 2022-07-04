@@ -1,7 +1,6 @@
 import {
     addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
+    updateTaskAC,
     removeTaskAC, setTasksAC,
     tasksReducer,
     TasksStateType
@@ -48,7 +47,7 @@ beforeEach(() => {
 })
 
 test("task should be deleted", () => {
-    const action = removeTaskAC(todoListID1, '1')
+    const action = removeTaskAC({todoListID: todoListID1, taskID: '1'})
 
     const endState = tasksReducer(startState, action)
 
@@ -93,7 +92,7 @@ test("correct task should be added", () => {
         startDate: '',
         todoListId: todoListID1,
     }
-    const action = addTaskAC(todoListID1, newTask)
+    const action = addTaskAC({newTask})
 
     const endState = tasksReducer(startState, action)
 
@@ -104,7 +103,7 @@ test("correct task should be added", () => {
 })
 
 test('correct task should change status', () => {
-    const action = changeTaskStatusAC(todoListID1, '1', TaskStatuses.New)
+    const action = updateTaskAC({todoListID: todoListID1, taskID: '1', model: {status: TaskStatuses.New}})
 
     const endState = tasksReducer(startState, action)
 
@@ -112,7 +111,7 @@ test('correct task should change status', () => {
 })
 
 test('correct task should change title', () => {
-    const action = changeTaskTitleAC(todoListID1, '1', 'ReactJS')
+    const action = updateTaskAC({todoListID: todoListID1, taskID: '1', model: {title: 'ReactJS'}})
 
     const endState = tasksReducer(startState, action)
 
@@ -148,9 +147,11 @@ test('property with todolist should be deleted', () => {
     expect(endState[todoListID2]).not.toBeDefined()
 })
 test('correct tasks should be initialization during set todolists', () => {
-    const action = setTodoListsAC({todoLists: [
-        {id: 'todolistId1', addedDate: '', order: 0, title: 'What to learn'},
-    ]})
+    const action = setTodoListsAC({
+        todoLists: [
+            {id: 'todolistId1', addedDate: '', order: 0, title: 'What to learn'},
+        ]
+    })
 
     const endState = tasksReducer({}, action)
 
@@ -162,16 +163,18 @@ test('correct tasks should be initialization during set todolists', () => {
 
 
 test('correct tasks should be added for todolist', () => {
-    const action = setTasksAC('todolistId1', [
-        {
-            id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, addedDate: '', deadline: '',
-            description: '', order: 0, priority: TaskPriorities.Low, startDate: '', todoListId: todoListID1
-        },
-        {
-            id: '2', title: "CSS", status: TaskStatuses.Completed, addedDate: '', deadline: '',
-            description: '', order: 0, priority: TaskPriorities.Low, startDate: '', todoListId: todoListID1
-        },
-    ])
+    const action = setTasksAC({
+        todoListID: 'todolistId1', tasks: [
+            {
+                id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, addedDate: '', deadline: '',
+                description: '', order: 0, priority: TaskPriorities.Low, startDate: '', todoListId: todoListID1
+            },
+            {
+                id: '2', title: "CSS", status: TaskStatuses.Completed, addedDate: '', deadline: '',
+                description: '', order: 0, priority: TaskPriorities.Low, startDate: '', todoListId: todoListID1
+            },
+        ]
+    })
 
     const endState = tasksReducer({['todolistId1']: []}, action)
 

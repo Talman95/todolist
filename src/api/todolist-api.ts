@@ -30,7 +30,7 @@ export const todolistAPI = {
     deleteTask(todoListID: string, taskID: string) {
         return instance.delete<CommonResponseType<{}>>(`/todo-lists/${todoListID}/tasks/${taskID}`)
     },
-    updateTask(todoListID: string, taskID: string, newTask: UpdatedTaskModel) {
+    updateTask(todoListID: string, taskID: string, newTask: UpdatedDomainTaskModel) {
         return instance.put<CommonResponseType<{ item: TaskType }>>(`/todo-lists/${todoListID}/tasks/${taskID}`, {...newTask})
     },
 }
@@ -52,7 +52,6 @@ type TasksType = {
     items: TaskType []
     totalCount: 0
 }
-
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -60,14 +59,12 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4,
 }
-
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3,
 }
-
 export type TaskType = {
     addedDate: string
     deadline: string
@@ -80,11 +77,11 @@ export type TaskType = {
     title: string
     todoListId: string
 }
-export type UpdatedTaskModel = {
+export type UpdatedDomainTaskModel = {
     title: string
-    description: string | null
+    description: string
     status: number
     priority: number
-    startDate: string | null
-    deadline: string | null
+    startDate: string
+    deadline: string
 }
