@@ -4,7 +4,7 @@ import {TodolistHeader} from "./TodoListHeader/TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
-import {addTaskTC, fetchTasksTC} from "./Task/tasks-reducer";
+import {addTask, fetchTasks} from "./Task/tasks-reducer";
 import {changeFilterValueAC, FilterValuesType, removeTodoListTC, updateTodoListTitleTC} from "./todolists-reducer";
 import {TaskStatuses} from "../../api/todolist-api";
 import {RequestStatusType} from "../../app/app-reducer";
@@ -27,7 +27,7 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
         if (demo) {
             return
         }
-        dispatch(fetchTasksTC(todoList.id))
+        dispatch(fetchTasks(todoList.id))
     }, [])
 
     if (todoList.filterValue === "Active") {
@@ -59,8 +59,8 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
         dispatch(changeFilterValueAC({id: props.todoListID, filter}));
     }, [dispatch, props.todoListID])
 
-    const addTask = useCallback((title: string) => {
-        dispatch(addTaskTC(props.todoListID, title))
+    const addTaskHandler = useCallback((title: string) => {
+        dispatch(addTask({todoId: props.todoListID, title}))
     }, [dispatch, props.todoListID])
 
     return (
@@ -71,7 +71,7 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
                 changeTodoListTitle={changeTodoListTitle}
                 entityStatus={entityStatus}
             />
-            <AddItemForm addItem={addTask} disabled={entityStatus === 'loading'}/>
+            <AddItemForm addItem={addTaskHandler} disabled={entityStatus === 'loading'}/>
             <List>
                 {tasksComponents}
             </List>

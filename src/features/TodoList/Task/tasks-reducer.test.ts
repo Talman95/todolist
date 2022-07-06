@@ -1,9 +1,6 @@
 import {
-    addTaskAC,
-    updateTaskAC,
-    removeTaskAC, setTasksAC,
     tasksReducer,
-    TasksStateType
+    TasksStateType, fetchTasks, removeTask, addTask, updateTask
 } from "./tasks-reducer";
 import {addTodoListAC, removeTodoListAC, setTodoListsAC} from "../todolists-reducer";
 import {v1} from "uuid";
@@ -47,7 +44,8 @@ beforeEach(() => {
 })
 
 test("task should be deleted", () => {
-    const action = removeTaskAC({todoListID: todoListID1, taskID: '1'})
+    let params = {todoId: todoListID1, taskId: '1'}
+    const action = removeTask.fulfilled(params, 'requestId', params)
 
     const endState = tasksReducer(startState, action)
 
@@ -92,7 +90,7 @@ test("correct task should be added", () => {
         startDate: '',
         todoListId: todoListID1,
     }
-    const action = addTaskAC({newTask})
+    const action = addTask.fulfilled(newTask, 'requestId', {todoId: newTask.todoListId, title: newTask.title})
 
     const endState = tasksReducer(startState, action)
 
@@ -103,7 +101,8 @@ test("correct task should be added", () => {
 })
 
 test('correct task should change status', () => {
-    const action = updateTaskAC({todoListID: todoListID1, taskID: '1', model: {status: TaskStatuses.New}})
+    const updateModel = {todoId: todoListID1, taskId: '1', model: {status: TaskStatuses.New}}
+    const action = updateTask.fulfilled(updateModel, 'requestId', updateModel)
 
     const endState = tasksReducer(startState, action)
 
@@ -111,7 +110,8 @@ test('correct task should change status', () => {
 })
 
 test('correct task should change title', () => {
-    const action = updateTaskAC({todoListID: todoListID1, taskID: '1', model: {title: 'ReactJS'}})
+    const updateModel = {todoId: todoListID1, taskId: '1', model: {title: 'ReactJS'}}
+    const action = updateTask.fulfilled(updateModel, 'requestId', updateModel)
 
     const endState = tasksReducer(startState, action)
 
@@ -163,18 +163,17 @@ test('correct tasks should be initialization during set todolists', () => {
 
 
 test('correct tasks should be added for todolist', () => {
-    const action = setTasksAC({
-        todoListID: 'todolistId1', tasks: [
-            {
-                id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, addedDate: '', deadline: '',
-                description: '', order: 0, priority: TaskPriorities.Low, startDate: '', todoListId: todoListID1
-            },
-            {
-                id: '2', title: "CSS", status: TaskStatuses.Completed, addedDate: '', deadline: '',
-                description: '', order: 0, priority: TaskPriorities.Low, startDate: '', todoListId: todoListID1
-            },
-        ]
-    })
+    const tasks = [
+        {
+            id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, addedDate: '', deadline: '',
+            description: '', order: 0, priority: TaskPriorities.Low, startDate: '', todoListId: todoListID1
+        },
+        {
+            id: '2', title: "CSS", status: TaskStatuses.Completed, addedDate: '', deadline: '',
+            description: '', order: 0, priority: TaskPriorities.Low, startDate: '', todoListId: todoListID1
+        },
+    ]
+    const action = fetchTasks.fulfilled({todoId: 'todolistId1', tasks: tasks}, 'requestId', 'todolistId1')
 
     const endState = tasksReducer({['todolistId1']: []}, action)
 
