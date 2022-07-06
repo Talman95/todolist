@@ -56,16 +56,16 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.4.21",
-    "@storybook/addon-essentials": "^6.4.21",
-    "@storybook/addon-interactions": "^6.4.21",
-    "@storybook/addon-links": "^6.4.21",
-    "@storybook/builder-webpack5": "^6.4.21",
-    "@storybook/manager-webpack5": "^6.4.21",
-    "@storybook/node-logger": "^6.4.21",
-    "@storybook/preset-create-react-app": "^4.1.0",
-    "@storybook/react": "^6.4.21",
-    "@storybook/testing-library": "^0.0.9",
+    "@storybook/addon-actions": "^6.5.9",
+    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/addon-interactions": "^6.5.9",
+    "@storybook/addon-links": "^6.5.9",
+    "@storybook/builder-webpack5": "^6.5.9",
+    "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/node-logger": "^6.5.9",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.9",
+    "@storybook/testing-library": "^0.0.13",
     "webpack": "5"
   }
 }
