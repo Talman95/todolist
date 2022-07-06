@@ -5,7 +5,7 @@ import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
 import {addTask, fetchTasks} from "./Task/tasks-reducer";
-import {changeFilterValueAC, FilterValuesType, removeTodoListTC, updateTodoListTitleTC} from "./todolists-reducer";
+import {changeFilterValue, FilterValuesType, removeTodoList, updateTodoListTitle} from "./todolists-reducer";
 import {TaskStatuses} from "../../api/todolist-api";
 import {RequestStatusType} from "../../app/app-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
@@ -47,16 +47,16 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
         )
     })
 
-    const removeTodoList = useCallback(() => {
-        dispatch(removeTodoListTC(props.todoListID))
+    const removeTodoListHandler = useCallback(() => {
+        dispatch(removeTodoList(props.todoListID))
     }, [dispatch, props.todoListID])
 
     const changeTodoListTitle = useCallback((title: string) => {
-        dispatch(updateTodoListTitleTC(props.todoListID, title))
+        dispatch(updateTodoListTitle({todoId: props.todoListID, title}))
     }, [dispatch, props.todoListID])
 
     const onClickSetFilter = useCallback((filter: FilterValuesType) => {
-        dispatch(changeFilterValueAC({id: props.todoListID, filter}));
+        dispatch(changeFilterValue({id: props.todoListID, filter}));
     }, [dispatch, props.todoListID])
 
     const addTaskHandler = useCallback((title: string) => {
@@ -67,7 +67,7 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
         <div className={'todolist'}>
             <TodolistHeader
                 title={todoList.title}
-                removeTodoList={removeTodoList}
+                removeTodoList={removeTodoListHandler}
                 changeTodoListTitle={changeTodoListTitle}
                 entityStatus={entityStatus}
             />

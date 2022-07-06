@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import {addTodoListTC, fetchTodoLists} from "../features/TodoList/todolists-reducer";
+import {addTodoList, fetchTodoLists} from "../features/TodoList/todolists-reducer";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "./hooks/hooks";
 
@@ -29,8 +29,8 @@ export const App = ({demo = false}) => {
         dispatch(fetchTodoLists())
     }, [])
 
-    const addTodoList = useCallback((title: string) => {
-        dispatch(addTodoListTC(title))
+    const addTodoListHandler = useCallback((title: string) => {
+        dispatch(addTodoList(title))
     }, [dispatch])
 
     const todoListsComponents = todoLists.map(tl => {
@@ -67,7 +67,7 @@ export const App = ({demo = false}) => {
                     justifyContent={"space-around"}
                     style={{padding: "20px 0"}}
                 >
-                    <AddItemForm addItem={addTodoList}/>
+                    <AddItemForm addItem={addTodoListHandler}/>
                 </Grid>
                 <Grid container
                       spacing={6}

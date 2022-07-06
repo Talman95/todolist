@@ -2,7 +2,7 @@ import {
     tasksReducer,
     TasksStateType, fetchTasks, removeTask, addTask, updateTask
 } from "./tasks-reducer";
-import {addTodoListAC, removeTodoListAC, setTodoListsAC} from "../todolists-reducer";
+import {addTodoList, fetchTodoLists, removeTodoList} from "../todolists-reducer";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses, TaskType, TodoListType} from "../../../api/todolist-api";
 
@@ -126,18 +126,18 @@ test('new array should be added when new todolist is added', () => {
         title: 'What to read'
     }
 
-    const action = addTodoListAC({todoList})
+    const action = addTodoList.fulfilled(todoList, 'requestId', todoList.title)
 
     const endState = tasksReducer(startState, action)
 
     const keys = Object.keys(endState)
 
     expect(keys.length).toBe(3)
-    expect(endState[action.payload.todoList.id]).toEqual([])
+    expect(endState[action.payload.id]).toEqual([])
 })
 
 test('property with todolist should be deleted', () => {
-    const action = removeTodoListAC({id: todoListID2})
+    const action = removeTodoList.fulfilled(todoListID2, 'requestId', todoListID2)
 
     const endState = tasksReducer(startState, action)
 
@@ -147,11 +147,9 @@ test('property with todolist should be deleted', () => {
     expect(endState[todoListID2]).not.toBeDefined()
 })
 test('correct tasks should be initialization during set todolists', () => {
-    const action = setTodoListsAC({
-        todoLists: [
-            {id: 'todolistId1', addedDate: '', order: 0, title: 'What to learn'},
-        ]
-    })
+    const action = fetchTodoLists.fulfilled([
+        {id: 'todolistId1', addedDate: '', order: 0, title: 'What to learn'},
+    ], 'requestId')
 
     const endState = tasksReducer({}, action)
 
