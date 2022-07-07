@@ -2,9 +2,9 @@ import {
     tasksReducer,
     TasksStateType, fetchTasks, removeTask, addTask, updateTask
 } from "./tasks-reducer";
-import {addTodoList, fetchTodoLists, removeTodoList} from "../todolists-reducer";
+import {addTodoList, fetchTodoLists, removeTodoList} from "../../todolists-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses, TaskType, TodoListType} from "../../../api/todolist-api";
+import {TaskPriorities, TaskStatuses, TaskType, TodoListType} from "../../../../api/todolist-api";
 
 let todoListID1 = v1()
 let todoListID2 = v1()

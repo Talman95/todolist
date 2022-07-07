@@ -2,13 +2,13 @@ import React, {FC, memo, useCallback, useEffect} from 'react';
 import {Task} from "./Task/Task";
 import {TodolistHeader} from "./TodoListHeader/TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
-import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
 import {addTask, fetchTasks} from "./Task/tasks-reducer";
-import {changeFilterValue, FilterValuesType, removeTodoList, updateTodoListTitle} from "./todolists-reducer";
-import {TaskStatuses} from "../../api/todolist-api";
-import {RequestStatusType} from "../../app/app-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
+import {changeFilterValue, FilterValuesType, removeTodoList, updateTodoListTitle} from "../todolists-reducer";
+import {TaskStatuses} from "../../../api/todolist-api";
+import {RequestStatusType} from "../../../app/app-reducer";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks/hooks";
 
 type TodoListPropsType = {
     todoListID: string

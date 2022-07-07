@@ -1,8 +1,8 @@
-import {TaskType, todolistAPI, UpdatedDomainTaskModel} from "../../../api/todolist-api";
-import {RootState} from "../../../store/store";
-import {addTodoList, fetchTodoLists, removeTodoList} from "../todolists-reducer";
-import {setAppStatus} from "../../../app/app-reducer";
-import {handleNetworkError, handleServerAppError} from "../../../utils/error-utils";
+import {TaskType, todolistAPI, UpdatedDomainTaskModel} from "../../../../api/todolist-api";
+import {RootState} from "../../../../store/store";
+import {addTodoList, fetchTodoLists, removeTodoList} from "../../todolists-reducer";
+import {setAppStatus} from "../../../../app/app-reducer";
+import {handleNetworkError, handleServerAppError} from "../../../../utils/error-utils";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const slice = createSlice({

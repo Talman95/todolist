@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
-import {TodoListsActionsType, todoListsReducer} from "../features/TodoList/todolists-reducer";
-import {tasksReducer} from "../features/TodoList/Task/tasks-reducer";
+import {TodoListsActionsType, todoListsReducer} from "../features/TodoListsContainer/todolists-reducer";
+import {tasksReducer} from "../features/TodoListsContainer/TodoList/Task/tasks-reducer";
 import {ThunkAction} from "redux-thunk";
 import {appReducer, AppReducerActionsType} from "../app/app-reducer";
 import {configureStore} from "@reduxjs/toolkit";

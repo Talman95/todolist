@@ -1,81 +1,49 @@
-import React, {useCallback, useEffect} from 'react';
+import React from 'react';
 import './App.css';
-import {Todolist} from '../features/TodoList/Todolist';
-import {AddItemForm} from "../components/AddItemForm/AddItemForm";
-import {Container, Grid, LinearProgress, Paper} from "@material-ui/core";
+import {Container, LinearProgress} from "@material-ui/core";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import {addTodoList, fetchTodoLists} from "../features/TodoList/todolists-reducer";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {useAppDispatch, useAppSelector} from "./hooks/hooks";
+import {useAppSelector} from "./hooks/hooks";
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Login} from "../features/Login/Login";
+import {TodoListsContainer} from "../features/TodoListsContainer/TodoListsContainer";
 
 type AppPropsType = {
     demo?: boolean
 }
 
 export const App = ({demo = false}) => {
-    const todoLists = useAppSelector(state => state.todoLists)
     const status = useAppSelector(state => state.app.status)
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        if (demo) {
-            return
-        }
-        dispatch(fetchTodoLists())
-    }, [])
-
-    const addTodoListHandler = useCallback((title: string) => {
-        dispatch(addTodoList(title))
-    }, [dispatch])
-
-    const todoListsComponents = todoLists.map(tl => {
-        return (
-            <Grid item key={tl.id}>
-                <Paper
-                    elevation={8}
-                    style={{padding: "10px"}}
-                >
-                    <Todolist todoListID={tl.id} demo={demo} entityStatus={tl.entityStatus}/>
-                </Paper>
-            </Grid>
-        )
-    })
 
     return (
-        <div className={"App"}>
-            <ErrorSnackbar/>
-            <AppBar position={"static"}>
-                <Toolbar style={{justifyContent: "space-between"}}>
-                    <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography variant={"h6"}>
-                        TodoLists
-                    </Typography>
-                    <Button color={"inherit"} variant={"outlined"}>Login</Button>
-                </Toolbar>
-                {status === 'loading' && <LinearProgress />}
-            </AppBar>
-            <Container fixed>
-                <Grid
-                    container
-                    justifyContent={"space-around"}
-                    style={{padding: "20px 0"}}
-                >
-                    <AddItemForm addItem={addTodoListHandler}/>
-                </Grid>
-                <Grid container
-                      spacing={6}
-                      justifyContent={"center"}
-                >
-                    {todoListsComponents}
-                </Grid>
-            </Container>
-        </div>
+        <BrowserRouter>
+            <div className={"App"}>
+                <ErrorSnackbar/>
+                <AppBar position={"static"}>
+                    <Toolbar style={{justifyContent: "space-between"}}>
+                        <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography variant={"h6"}>
+                            TodoLists
+                        </Typography>
+                        <Button color={"inherit"} variant={"outlined"}>Login</Button>
+                    </Toolbar>
+                    {status === 'loading' && <LinearProgress/>}
+                </AppBar>
+                <Container fixed>
+                    <Routes>
+                        <Route path={'/'} element={<TodoListsContainer demo={demo}/>}/>
+                        <Route path={'/login'} element={<Login/>}/>
+                        <Route path={'*'} element={<h1>404: PAGE NOT FOUND</h1>}/>
+                    </Routes>
+                </Container>
+            </div>
+        </BrowserRouter>
     );
 }
