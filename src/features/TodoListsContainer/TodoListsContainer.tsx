@@ -4,6 +4,7 @@ import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {addTodoList, fetchTodoLists} from "./todolists-reducer";
 import {Todolist} from "./TodoList/Todolist";
 import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
+import {useNavigate} from "react-router-dom";
 
 type TodoListsContainerType = {
     demo?: boolean
@@ -11,10 +12,12 @@ type TodoListsContainerType = {
 
 export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
     const todoLists = useAppSelector(state => state.todoLists)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
+    let navigate = useNavigate()
 
     useEffect(() => {
-        if (demo) {
+        if (demo || isLoggedIn) {
             return
         }
         dispatch(fetchTodoLists())
@@ -36,6 +39,11 @@ export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
             </Grid>
         )
     })
+
+    if (!isLoggedIn) {
+        navigate('/login')
+    }
+
     return (
         <>
             <Grid

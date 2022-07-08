@@ -10,8 +10,15 @@ import {
     TextField
 } from "@material-ui/core";
 import {useFormik} from "formik";
+import {login} from "./auth-reducer";
+import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
+import {useNavigate} from "react-router-dom";
 
 export const Login = () => {
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const dispatch = useAppDispatch()
+    let navigate = useNavigate()
+
     type FormikErrorType = {
         email?: string
         password?: string
@@ -38,10 +45,15 @@ export const Login = () => {
             return errors;
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(login(values))
             formik.resetForm()
         },
     });
+
+    if (isLoggedIn) {
+        navigate('/')
+    }
+    
     return (
         <Grid container justifyContent={'center'}>
             <Grid item justifyContent={'center'}>

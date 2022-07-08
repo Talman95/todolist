@@ -35,6 +35,12 @@ export const todolistAPI = {
     },
 }
 
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<CommonResponseType<{ userId: number }>>('/auth/login', data)
+    }
+}
+
 export type TodoListType = {
     id: string
     addedDate: string
@@ -52,6 +58,7 @@ type TasksType = {
     items: TaskType []
     totalCount: 0
 }
+
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -59,12 +66,14 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4,
 }
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3,
 }
+
 export type TaskType = {
     addedDate: string
     deadline: string
@@ -84,4 +93,10 @@ export type UpdatedDomainTaskModel = {
     priority: number
     startDate: string
     deadline: string
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: string
 }

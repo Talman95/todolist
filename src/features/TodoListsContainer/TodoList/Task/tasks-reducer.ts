@@ -8,8 +8,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 const slice = createSlice({
     name: 'tasks',
     initialState: {} as TasksStateType,
-    reducers: {
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(addTodoList.fulfilled, (state, action) => {
             state[action.payload.id] = []

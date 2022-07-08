@@ -4,11 +4,13 @@ import {tasksReducer} from "../features/TodoListsContainer/TodoList/Task/tasks-r
 import {ThunkAction} from "redux-thunk";
 import {appReducer, AppReducerActionsType} from "../app/app-reducer";
 import {configureStore} from "@reduxjs/toolkit";
+import {authReducer} from "../features/Login/auth-reducer";
 
 const rootReducer = combineReducers({
     todoLists: todoListsReducer,
     tasks: tasksReducer,
     app: appReducer,
+    auth: authReducer,
 })
 export const store = configureStore({
     reducer: rootReducer,
