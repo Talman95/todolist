@@ -12,12 +12,11 @@ import {
 import {useFormik} from "formik";
 import {login} from "./auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
-import {useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 export const Login = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
-    let navigate = useNavigate()
 
     type FormikErrorType = {
         email?: string
@@ -51,12 +50,12 @@ export const Login = () => {
     });
 
     if (isLoggedIn) {
-        navigate('/')
+        return <Navigate to={'/'}/>
     }
     
     return (
         <Grid container justifyContent={'center'}>
-            <Grid item justifyContent={'center'}>
+            <Grid item>
                 <form onSubmit={formik.handleSubmit}>
                     <FormControl>
                         <FormLabel>

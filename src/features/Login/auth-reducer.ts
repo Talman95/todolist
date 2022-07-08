@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authAPI, LoginParamsType} from "../../api/todolist-api";
 import {setAppStatus} from "../../app/app-reducer";
 import {handleNetworkError, handleServerAppError} from "../../utils/error-utils";
@@ -9,7 +9,11 @@ const slice = createSlice({
     initialState: {
         isLoggedIn: false,
     },
-    reducers: {},
+    reducers: {
+        setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
+            state.isLoggedIn = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
             state.isLoggedIn = true
@@ -17,6 +21,7 @@ const slice = createSlice({
     }
 })
 
+export const {setIsLoggedIn} = slice.actions
 export const authReducer = slice.reducer
 
 export const login = createAsyncThunk('auth/login', async (param: LoginParamsType, thunkAPI) => {

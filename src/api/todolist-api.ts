@@ -38,7 +38,10 @@ export const todolistAPI = {
 export const authAPI = {
     login(data: LoginParamsType) {
         return instance.post<CommonResponseType<{ userId: number }>>('/auth/login', data)
-    }
+    },
+    authMe() {
+        return instance.get<CommonResponseType<UserType>>('auth/me')
+    },
 }
 
 export type TodoListType = {
@@ -99,4 +102,9 @@ export type LoginParamsType = {
     password: string
     rememberMe?: boolean
     captcha?: string
+}
+export type UserType = {
+    id: number
+    email: string
+    login: string
 }

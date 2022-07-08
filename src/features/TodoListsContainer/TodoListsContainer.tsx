@@ -4,7 +4,7 @@ import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {addTodoList, fetchTodoLists} from "./todolists-reducer";
 import {Todolist} from "./TodoList/Todolist";
 import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
-import {useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 type TodoListsContainerType = {
     demo?: boolean
@@ -14,10 +14,9 @@ export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
     const todoLists = useAppSelector(state => state.todoLists)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
-    let navigate = useNavigate()
 
     useEffect(() => {
-        if (demo || isLoggedIn) {
+        if (demo || !isLoggedIn) {
             return
         }
         dispatch(fetchTodoLists())
@@ -41,7 +40,7 @@ export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
     })
 
     if (!isLoggedIn) {
-        navigate('/login')
+        return <Navigate to={'/login'}/>
     }
 
     return (
