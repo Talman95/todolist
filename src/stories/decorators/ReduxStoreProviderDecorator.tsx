@@ -1,14 +1,16 @@
 import React, {ReactNode} from 'react';
 import {Provider} from "react-redux"
-import {RootState} from "../../store/store"
-import {combineReducers, createStore} from 'redux';
+import {RootReducerType, RootState} from "../../store/store"
+import {combineReducers} from 'redux';
 import {tasksReducer} from '../../features/TodoListsContainer/TodoList/Task/tasks-reducer';
 import {todoListsReducer} from "../../features/TodoListsContainer/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
 import {appReducer} from "../../app/app-reducer";
 import {authReducer} from "../../features/Login/auth-reducer";
+import {configureStore} from "@reduxjs/toolkit";
+import {HashRouter} from "react-router-dom";
 
-const rootReducer = combineReducers({
+const rootReducer: RootReducerType = combineReducers({
     todoLists: todoListsReducer,
     tasks: tasksReducer,
     app: appReducer,
@@ -56,9 +58,16 @@ const initialGlobalState = {
     }
 };
 
-export const storyBookStore = createStore(rootReducer, initialGlobalState as RootState);
+export const storyBookStore = configureStore({
+    reducer: rootReducer,
+    preloadedState: initialGlobalState as RootState,
+})
 
 export const ReduxStoreProviderDecorator = (storyFn: () => ReactNode) => {
     // @ts-ignore
     return <Provider store={storyBookStore}>{storyFn()}</Provider>
+}
+
+export const BrowserRouterDecorator = (storyFn: () => ReactNode) => {
+    return <HashRouter>{storyFn()}</HashRouter>
 }

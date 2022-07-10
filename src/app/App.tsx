@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "./hooks/hooks";
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {TodoListsContainer} from "../features/TodoListsContainer/TodoListsContainer";
 import {initializeApp} from "./app-reducer";
@@ -41,38 +41,36 @@ export const App = ({demo = false}) => {
     }
 
     return (
-        <BrowserRouter>
-            <div className={"App"}>
-                <ErrorSnackbar/>
-                <AppBar position={"static"}>
-                    {isLoggedIn
-                        ?
-                        <Toolbar style={{justifyContent: "space-between"}}>
-                            <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
-                                <MenuIcon/>
-                            </IconButton>
-                            <Typography variant={"h6"}>
-                                TodoLists
-                            </Typography>
-                            <Button color={"inherit"} variant={"outlined"} onClick={logoutHandler}>Logout</Button>
-                        </Toolbar>
-                        :
-                        <Toolbar style={{justifyContent: "center"}}>
-                            <Typography variant={"h6"}>
-                                TodoLists
-                            </Typography>
-                        </Toolbar>
-                    }
-                    {status === 'loading' && <LinearProgress/>}
-                </AppBar>
-                <Container fixed>
-                    <Routes>
-                        <Route path={'/'} element={<TodoListsContainer demo={demo}/>}/>
-                        <Route path={'/login'} element={<Login/>}/>
-                        <Route path={'*'} element={<h1>404: PAGE NOT FOUND</h1>}/>
-                    </Routes>
-                </Container>
-            </div>
-        </BrowserRouter>
+        <div className={"App"}>
+            <ErrorSnackbar/>
+            <AppBar position={"static"}>
+                {isLoggedIn
+                    ?
+                    <Toolbar style={{justifyContent: "space-between"}}>
+                        <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography variant={"h6"}>
+                            TodoLists
+                        </Typography>
+                        <Button color={"inherit"} variant={"outlined"} onClick={logoutHandler}>Logout</Button>
+                    </Toolbar>
+                    :
+                    <Toolbar style={{justifyContent: "center"}}>
+                        <Typography variant={"h6"}>
+                            TodoLists
+                        </Typography>
+                    </Toolbar>
+                }
+                {status === 'loading' && <LinearProgress/>}
+            </AppBar>
+            <Container fixed>
+                <Routes>
+                    <Route path={'/'} element={<TodoListsContainer demo={demo}/>}/>
+                    <Route path={'/login'} element={<Login/>}/>
+                    <Route path={'*'} element={<h1>404: PAGE NOT FOUND</h1>}/>
+                </Routes>
+            </Container>
+        </div>
     );
 }
