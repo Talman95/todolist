@@ -42,6 +42,9 @@ export const authAPI = {
     authMe() {
         return instance.get<CommonResponseType<UserType>>('auth/me')
     },
+    logout() {
+       return instance.delete<CommonResponseType<{}>>('/auth/login')
+    },
 }
 
 export type TodoListType = {

@@ -13,6 +13,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {TodoListsContainer} from "../features/TodoListsContainer/TodoListsContainer";
 import {initializeApp} from "./app-reducer";
+import {logout} from "../features/Login/auth-reducer";
 
 type AppPropsType = {
     demo?: boolean
@@ -21,11 +22,16 @@ type AppPropsType = {
 export const App = ({demo = false}) => {
     const status = useAppSelector(state => state.app.status)
     const isInitialized = useAppSelector(state => state.app.isInitialized)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(initializeApp())
     }, [])
+
+    const logoutHandler = () => {
+        dispatch(logout())
+    }
 
     if (!isInitialized) {
         return <div
@@ -39,15 +45,24 @@ export const App = ({demo = false}) => {
             <div className={"App"}>
                 <ErrorSnackbar/>
                 <AppBar position={"static"}>
-                    <Toolbar style={{justifyContent: "space-between"}}>
-                        <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
-                            <MenuIcon/>
-                        </IconButton>
-                        <Typography variant={"h6"}>
-                            TodoLists
-                        </Typography>
-                        <Button color={"inherit"} variant={"outlined"}>Login</Button>
-                    </Toolbar>
+                    {isLoggedIn
+                        ?
+                        <Toolbar style={{justifyContent: "space-between"}}>
+                            <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
+                                <MenuIcon/>
+                            </IconButton>
+                            <Typography variant={"h6"}>
+                                TodoLists
+                            </Typography>
+                            <Button color={"inherit"} variant={"outlined"} onClick={logoutHandler}>Logout</Button>
+                        </Toolbar>
+                        :
+                        <Toolbar style={{justifyContent: "center"}}>
+                            <Typography variant={"h6"}>
+                                TodoLists
+                            </Typography>
+                        </Toolbar>
+                    }
                     {status === 'loading' && <LinearProgress/>}
                 </AppBar>
                 <Container fixed>
