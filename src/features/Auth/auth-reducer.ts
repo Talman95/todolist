@@ -4,7 +4,7 @@ import {setAppStatus} from "../../app/app-reducer";
 import {handleNetworkError, handleServerAppError} from "../../utils/error-utils";
 
 
-const slice = createSlice({
+export const slice = createSlice({
     name: 'auth',
     initialState: {
         isLoggedIn: false,
@@ -43,7 +43,6 @@ export const login = createAsyncThunk('auth/login', async (param: LoginParamsTyp
         return rejectWithValue({})
     }
 })
-
 export const logout = createAsyncThunk('auth/logout', async (param, {dispatch, rejectWithValue}) => {
     dispatch(setAppStatus({status: 'loading'}))
     try {
@@ -60,3 +59,8 @@ export const logout = createAsyncThunk('auth/logout', async (param, {dispatch, r
         return rejectWithValue({})
     }
 })
+
+export const asyncActions = {
+    login,
+    logout,
+}

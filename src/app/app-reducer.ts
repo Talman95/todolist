@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authAPI} from "../api/todolist-api";
-import {setIsLoggedIn} from "../features/Login/auth-reducer";
+import {setIsLoggedIn} from "../features/Auth/auth-reducer";
 import {handleNetworkError, handleServerAppError} from "../utils/error-utils";
 
 export const slice = createSlice({
@@ -27,7 +27,9 @@ export const appReducer = slice.reducer
 export const {setAppStatus, setAppErrorMessage, setInitialized} = slice.actions
 
 //thunks
-export const initializeApp = createAsyncThunk('app/initializeApp', async (param, {dispatch, rejectWithValue}) => {
+export const initializeApp = createAsyncThunk('app/initializeApp', async (param,
+                                                                          {dispatch, rejectWithValue}
+) => {
     dispatch(setAppStatus({status: 'loading'}))
     try {
         const res = await authAPI.authMe()
@@ -43,6 +45,7 @@ export const initializeApp = createAsyncThunk('app/initializeApp', async (param,
         return rejectWithValue({})
     }
 })
+export const asyncActions = {initializeApp}
 
 //types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

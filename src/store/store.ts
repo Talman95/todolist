@@ -1,10 +1,9 @@
 import {combineReducers} from "redux";
-import {TodoListsActionsType, todoListsReducer} from "../features/TodoListsContainer/todolists-reducer";
-import {tasksReducer} from "../features/TodoListsContainer/TodoList/Task/tasks-reducer";
-import {ThunkAction} from "redux-thunk";
+import {TodoListsActionsType, todoListsReducer} from "../features/TodoLists/todolists-reducer";
+import {tasksReducer} from "../features/TodoLists/TodoList/Task/tasks-reducer";
 import {appReducer, AppReducerActionsType} from "../app/app-reducer";
 import {configureStore} from "@reduxjs/toolkit";
-import {authReducer} from "../features/Login/auth-reducer";
+import {authReducer} from "../features/Auth/auth-reducer";
 
 const rootReducer = combineReducers({
     todoLists: todoListsReducer,

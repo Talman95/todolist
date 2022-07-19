@@ -1,30 +1,33 @@
 import React, {FC, useCallback, useEffect} from 'react';
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
-import {addTodoList, fetchTodoLists} from "./todolists-reducer";
 import {Todolist} from "./TodoList/Todolist";
-import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
+import {useAppSelector} from "../../app/hooks/hooks";
 import {Navigate} from "react-router-dom";
+import {authSelectors} from "../Auth";
+import {selectTodoLists} from "./selectors";
+import {useActions} from "../../app/hooks/useActions";
+import {todoListsActions} from "./index";
 
 type TodoListsContainerType = {
     demo?: boolean
 }
 
 export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
-    const todoLists = useAppSelector(state => state.todoLists)
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const dispatch = useAppDispatch()
+    const todoLists = useAppSelector(selectTodoLists)
+    const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+    const {addTodoList, fetchTodoLists} = useActions(todoListsActions)
 
     useEffect(() => {
         if (demo || !isLoggedIn) {
             return
         }
-        dispatch(fetchTodoLists())
+        fetchTodoLists()
     }, [])
 
     const addTodoListHandler = useCallback((title: string) => {
-        dispatch(addTodoList(title))
-    }, [dispatch])
+        addTodoList(title)
+    }, [])
 
     const todoListsComponents = todoLists.map(tl => {
         return (

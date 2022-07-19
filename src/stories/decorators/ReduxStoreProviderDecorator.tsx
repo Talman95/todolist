@@ -2,11 +2,11 @@ import React, {ReactNode} from 'react';
 import {Provider} from "react-redux"
 import {RootReducerType, RootState} from "../../store/store"
 import {combineReducers} from 'redux';
-import {tasksReducer} from '../../features/TodoListsContainer/TodoList/Task/tasks-reducer';
-import {todoListsReducer} from "../../features/TodoListsContainer/todolists-reducer";
+import {tasksReducer} from '../../features/TodoLists/TodoList/Task/tasks-reducer';
+import {todoListsReducer} from "../../features/TodoLists/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
 import {appReducer} from "../../app/app-reducer";
-import {authReducer} from "../../features/Login/auth-reducer";
+import {authReducer} from "../../features/Auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import {HashRouter} from "react-router-dom";
 

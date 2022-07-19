@@ -4,11 +4,12 @@ import {TodolistHeader} from "./TodoListHeader/TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
 import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
-import {addTask, fetchTasks} from "./Task/tasks-reducer";
-import {changeFilterValue, FilterValuesType, removeTodoList, updateTodoListTitle} from "../todolists-reducer";
+import {FilterValuesType} from "../todolists-reducer";
 import {TaskStatuses} from "../../../api/todolist-api";
 import {RequestStatusType} from "../../../app/app-reducer";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks/hooks";
+import {useAppSelector} from "../../../app/hooks/hooks";
+import {useActions} from "../../../app/hooks/useActions";
+import {tasksActions, todoListsActions} from "../index";
 
 type TodoListPropsType = {
     todoListID: string
@@ -18,16 +19,16 @@ type TodoListPropsType = {
 
 export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...props}) => {
     let tasks = useAppSelector(state => state.tasks[props.todoListID])
-    const todoList = useAppSelector(state =>
-        state.todoLists.filter(tl => tl.id === props.todoListID)[0])
+    const todoList = useAppSelector(state => state.todoLists.filter(tl => tl.id === props.todoListID)[0])
 
-    const dispatch = useAppDispatch()
+    const {removeTodoList, updateTodoListTitle, changeFilterValue} = useActions(todoListsActions)
+    const {fetchTasks, addTask} = useActions(tasksActions)
 
     useEffect(() => {
         if (demo) {
             return
         }
-        dispatch(fetchTasks(todoList.id))
+        fetchTasks(todoList.id)
     }, [])
 
     if (todoList.filterValue === "Active") {
@@ -36,6 +37,22 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
     if (todoList.filterValue === "Completed") {
         tasks = tasks.filter(t => t.status === TaskStatuses.Completed)
     }
+
+    const removeTodoListHandler = useCallback(() => {
+        removeTodoList(props.todoListID)
+    }, [])
+
+    const changeTodoListTitle = useCallback((title: string) => {
+        updateTodoListTitle({todoId: props.todoListID, title})
+    }, [])
+
+    const onClickSetFilter = useCallback((filter: FilterValuesType) => {
+        changeFilterValue({id: props.todoListID, filter});
+    }, [])
+
+    const addTaskHandler = useCallback((title: string) => {
+        addTask({todoId: props.todoListID, title})
+    }, [])
 
     const tasksComponents = tasks.map(t => {
         return (
@@ -46,22 +63,6 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
             />
         )
     })
-
-    const removeTodoListHandler = useCallback(() => {
-        dispatch(removeTodoList(props.todoListID))
-    }, [dispatch, props.todoListID])
-
-    const changeTodoListTitle = useCallback((title: string) => {
-        dispatch(updateTodoListTitle({todoId: props.todoListID, title}))
-    }, [dispatch, props.todoListID])
-
-    const onClickSetFilter = useCallback((filter: FilterValuesType) => {
-        dispatch(changeFilterValue({id: props.todoListID, filter}));
-    }, [dispatch, props.todoListID])
-
-    const addTaskHandler = useCallback((title: string) => {
-        dispatch(addTask({todoId: props.todoListID, title}))
-    }, [dispatch, props.todoListID])
 
     return (
         <div className={'todolist'}>

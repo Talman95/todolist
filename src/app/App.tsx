@@ -1,36 +1,43 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {CircularProgress, Container, LinearProgress} from "@material-ui/core";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import {
+    CircularProgress,
+    Container,
+    LinearProgress,
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+    IconButton
+} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppDispatch, useAppSelector} from "./hooks/hooks";
 import {Route, Routes} from 'react-router-dom';
-import {Login} from "../features/Login/Login";
-import {TodoListsContainer} from "../features/TodoListsContainer/TodoListsContainer";
-import {initializeApp} from "./app-reducer";
-import {logout} from "../features/Login/auth-reducer";
+import {authActions, Login} from "../features/Auth";
+import {TodoListsContainer} from "../features/TodoLists";
+import {selectIsInitialized, selectStatus} from "./selectors";
+import {authSelectors} from "../features/Auth";
+import {useActions} from "./hooks/useActions";
+import {appActions} from './'
 
 type AppPropsType = {
     demo?: boolean
 }
 
 export const App = ({demo = false}) => {
-    const status = useAppSelector(state => state.app.status)
-    const isInitialized = useAppSelector(state => state.app.isInitialized)
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const dispatch = useAppDispatch()
+    const status = useAppSelector(selectStatus)
+    const isInitialized = useAppSelector(selectIsInitialized)
+    const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+    const {logout} = useActions(authActions)
+    const {initializeApp} = useActions(appActions)
 
     useEffect(() => {
-        dispatch(initializeApp())
+        initializeApp()
     }, [])
 
     const logoutHandler = () => {
-        dispatch(logout())
+        logout()
     }
 
     if (!isInitialized) {
@@ -72,5 +79,5 @@ export const App = ({demo = false}) => {
                 </Routes>
             </Container>
         </div>
-    );
+    )
 }

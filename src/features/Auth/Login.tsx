@@ -10,13 +10,15 @@ import {
     TextField
 } from "@material-ui/core";
 import {useFormik} from "formik";
-import {login} from "./auth-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
+import {authActions} from "./";
+import {useAppSelector} from "../../app/hooks/hooks";
 import {Navigate} from "react-router-dom";
+import {selectIsLoggedIn} from "./selectors";
+import {useActions} from "../../app/hooks/useActions";
 
 export const Login = () => {
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector(selectIsLoggedIn)
+    const {login} = useActions(authActions)
 
     type FormikErrorType = {
         email?: string
@@ -44,7 +46,7 @@ export const Login = () => {
             return errors;
         },
         onSubmit: values => {
-            dispatch(login(values))
+            login(values)
             formik.resetForm()
         },
     });

@@ -118,6 +118,13 @@ export const updateTodoListTitle = createAsyncThunk('todoList/updateTodoListTitl
     }
 })
 
+export const asyncActions = {
+    fetchTodoLists,
+    removeTodoList,
+    addTodoList,
+    updateTodoListTitle
+}
+
 //types
 export type FilterValuesType = 'All' | 'Active' | 'Completed'
 export type TodoListsStateType = TodoListType & {
