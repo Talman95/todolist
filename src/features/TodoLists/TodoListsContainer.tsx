@@ -34,7 +34,7 @@ export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
             <Grid item key={tl.id}>
                 <Paper
                     elevation={8}
-                    style={{padding: "10px"}}
+                    style={{padding: "10px", width: "300px", position: "relative"}}
                 >
                     <Todolist todoListID={tl.id} demo={demo} entityStatus={tl.entityStatus}/>
                 </Paper>
@@ -48,17 +48,14 @@ export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
 
     return (
         <>
-            <Grid
-                container
-                justifyContent={"space-around"}
-                style={{padding: "20px 0"}}
-            >
+            <Grid container
+                  spacing={3}
+                  style={{padding: "25px 0 5px 0", display: "flex", justifyContent: "center"}}>
                 <AddItemForm addItem={addTodoListHandler}/>
             </Grid>
             <Grid container
                   spacing={6}
-                  justifyContent={"center"}
-            >
+                  style={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
                 {todoListsComponents}
             </Grid>
         </>

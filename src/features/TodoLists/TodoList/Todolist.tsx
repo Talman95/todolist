@@ -73,8 +73,11 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
                 entityStatus={entityStatus}
             />
             <AddItemForm addItem={addTaskHandler} disabled={entityStatus === 'loading'}/>
-            <List>
-                {tasksComponents}
+            <List style={{maxHeight: "380px", overflowY: "auto"}}>
+                {tasks.length > 0
+                    ? tasksComponents
+                    : <div style={{padding: '10px', color: 'grey'}}>No task</div>
+                }
             </List>
             <ButtonsBlock
                 filterValue={todoList.filterValue}

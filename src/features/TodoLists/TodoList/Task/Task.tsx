@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FC, memo, useCallback} from 'react';
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import {Checkbox, IconButton, ListItem} from "@material-ui/core";
+import {Checkbox, IconButton, ListItem, ListItemSecondaryAction} from "@material-ui/core";
 import {TaskStatuses} from "../../../../api/todolist-api";
 import {useAppSelector} from "../../../../app/hooks/hooks";
 import {useActions} from "../../../../app/hooks/useActions";
@@ -21,9 +21,11 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
     }, [])
 
     const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        let taskStatus = e.currentTarget.checked
-        const status = taskStatus ? TaskStatuses.Completed : TaskStatuses.New
-        updateTask({todoId: todoListID, taskId: taskID, model: {status}})
+        updateTask({
+            todoId: todoListID,
+            taskId: taskID,
+            model: {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}
+        })
     }, [])
 
     const changeTaskTitle = useCallback((title: string) => {
@@ -41,12 +43,14 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
             <span className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
                 <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
             </span>
-            <IconButton
-                onClick={removeTaskHandler}
-                size={"small"}
-            >
-                <DeleteOutlineIcon/>
-            </IconButton>
+            <ListItemSecondaryAction>
+                <IconButton
+                    onClick={removeTaskHandler}
+                    size={"small"}
+                >
+                    <DeleteOutlineIcon/>
+                </IconButton>
+            </ListItemSecondaryAction>
         </ListItem>
     );
 });

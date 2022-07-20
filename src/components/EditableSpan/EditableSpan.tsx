@@ -35,7 +35,7 @@ export const EditableSpan: FC<EditableSpanPropsType> = memo(({title, changeTitle
     }
 
     return (
-        <span>
+        <div style={{wordWrap: "break-word", textAlign: "start", padding: "0 20px", marginRight: "15px"}}>
             {editMode
                 ?
                 <TextField
@@ -44,13 +44,15 @@ export const EditableSpan: FC<EditableSpanPropsType> = memo(({title, changeTitle
                     onChange={onChangeSetUserText}
                     onBlur={offEditMode}
                     onKeyPress={onEnterPress}
-                    style={{width: "85%"}}
+                    multiline
+                    variant={"outlined"}
+                    fullWidth
                 />
                 :
-                <span onDoubleClick={onEditMode}>
+                <div onDoubleClick={onEditMode} style={{overflowWrap: "anywhere"}}>
                     {titleSpan}
-                </span>
+                </div>
             }
-        </span>
+        </div>
     );
 });

@@ -1,23 +1,22 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {
+    AppBar,
+    Button,
     CircularProgress,
     Container,
+    IconButton,
     LinearProgress,
-    AppBar,
     Toolbar,
-    Typography,
-    Button,
-    IconButton
+    Typography
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {useAppDispatch, useAppSelector} from "./hooks/hooks";
+import {useAppSelector} from "./hooks/hooks";
 import {Route, Routes} from 'react-router-dom';
-import {authActions, Login} from "../features/Auth";
+import {authActions, authSelectors, Login} from "../features/Auth";
 import {TodoListsContainer} from "../features/TodoLists";
 import {selectIsInitialized, selectStatus} from "./selectors";
-import {authSelectors} from "../features/Auth";
 import {useActions} from "./hooks/useActions";
 import {appActions} from './'
 
@@ -48,7 +47,7 @@ export const App = ({demo = false}) => {
     }
 
     return (
-        <div className={"App"}>
+        <div style={{height: "100vh"}}>
             <ErrorSnackbar/>
             <AppBar position={"static"}>
                 {isLoggedIn

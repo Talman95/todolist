@@ -27,6 +27,7 @@ export const TodolistHeader: FC<TodolistHeaderPropsType> = memo(({
             <IconButton
                 onClick={removeTodoList}
                 disabled={entityStatus === 'loading'}
+                style={{position: 'absolute', right: '5px', top: '5px'}}
             >
                 <DeleteIcon/>
             </IconButton>

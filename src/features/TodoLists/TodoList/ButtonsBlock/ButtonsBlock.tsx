@@ -8,30 +8,25 @@ type PropsType = {
 }
 
 export const ButtonsBlock: FC<PropsType> = memo(({setFilterValue, filterValue}) => {
+    const renderButton = (text: FilterValuesType) => {
+        const onClickHandler = () => setFilterValue(text)
+
+        return <Button color={filterValue === text ? "secondary" : "primary"}
+                       onClick={onClickHandler}>
+            {text}
+        </Button>
+    }
+
     return (
         <ButtonGroup
             size={"small"}
             variant={"contained"}
             fullWidth
+            style={{paddingTop: '10px'}}
         >
-            <Button
-                color={filterValue === "All" ? "secondary" : "primary"}
-                onClick={() => setFilterValue('All')}
-            >
-                All
-            </Button>
-            <Button
-                color={filterValue === "Active" ? "secondary" : "primary"}
-                onClick={() => setFilterValue('Active')}
-            >
-                Active
-            </Button>
-            <Button
-                color={filterValue === "Completed" ? "secondary" : "primary"}
-                onClick={() => setFilterValue('Completed')}
-            >
-                Completed
-            </Button>
+            {renderButton('All')}
+            {renderButton('Active')}
+            {renderButton('Completed')}
         </ButtonGroup>
     );
 });
