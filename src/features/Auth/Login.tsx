@@ -11,14 +11,13 @@ import {
 } from "@material-ui/core";
 import {useFormik} from "formik";
 import {authActions} from "./";
-import {useAppSelector} from "../../app/hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "./selectors";
-import {useActions} from "../../app/hooks/useActions";
 
 export const Login = () => {
     const isLoggedIn = useAppSelector(selectIsLoggedIn)
-    const {login} = useActions(authActions)
+    const dispatch = useAppDispatch()
 
     type FormikErrorType = {
         email?: string
@@ -45,8 +44,17 @@ export const Login = () => {
             }
             return errors;
         },
-        onSubmit: values => {
-            login(values)
+        onSubmit: async (values, formikHelpers) => {
+            const resultAction = await dispatch(authActions.login(values))
+
+            if (authActions.login.rejected.match(resultAction)) {
+                if (resultAction.payload) {
+                    if (resultAction.payload.fieldsErrors?.length) {
+                        const error = resultAction.payload.fieldsErrors[0];
+                        formikHelpers.setFieldError(error.field, error.error)
+                    }
+                }
+            }
             formik.resetForm()
         },
     });
@@ -54,7 +62,7 @@ export const Login = () => {
     if (isLoggedIn) {
         return <Navigate to={'/'}/>
     }
-    
+
     return (
         <Grid container justifyContent={'center'}>
             <Grid item>

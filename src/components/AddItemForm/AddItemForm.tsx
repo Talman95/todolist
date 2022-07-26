@@ -2,28 +2,30 @@ import React, {ChangeEvent, FC, KeyboardEvent, memo, useState} from 'react';
 import {IconButton, TextField} from "@material-ui/core";
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
 
+export type AddItemFormHelperType = {
+    setError: (error: string) => void
+    setTitle: (title: string) => void
+}
 type AddItemFormPropsType = {
-    addItem: (title: string) => void
+    addItem: (title: string, helper: AddItemFormHelperType) => void
     disabled?: boolean
 }
 
 export const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem, disabled = false}) => {
 
-    const [title, setTitleForm] = useState<string>('');
-    const [error, setError] = useState<boolean>(false);
+    const [title, setTitle] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
 
     const onClickAddItem = () => {
-        let trimTitle = title.trim();
-        if (trimTitle !== '') {
-            addItem(trimTitle);
+        if (title.trim() !== '') {
+            addItem(title, {setError, setTitle})
         } else {
-            !error && setError(true);
+            setError('Title is required!');
         }
-        setTitleForm('');
     }
     const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        error && setError(false);
-        setTitleForm(e.currentTarget.value);
+        error && setError(null);
+        setTitle(e.currentTarget.value);
     }
     const onEnterPressAddItem = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -32,16 +34,16 @@ export const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem, disabled = 
     }
 
     return (
-        <div style={{textAlign: "center"}}>
+        <div style={{display: "flex", alignItems: "flex-start", textAlign: "center"}}>
             <TextField
                 value={title}
                 onChange={onChangeSetTitle}
                 onKeyPress={onEnterPressAddItem}
                 label={"Title"}
-                error={error}
+                error={!!error}
                 variant={"outlined"}
                 size={"small"}
-                helperText={error && "Title is required!"}
+                helperText={error}
                 disabled={disabled}
             />
             <IconButton

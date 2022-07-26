@@ -3,7 +3,7 @@ import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import {Checkbox, IconButton, ListItem, ListItemSecondaryAction} from "@material-ui/core";
 import {TaskStatuses} from "../../../../api/todolist-api";
-import {useAppSelector} from "../../../../app/hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../../../app/hooks/hooks";
 import {useActions} from "../../../../app/hooks/useActions";
 import {tasksActions} from "../../index";
 
@@ -14,6 +14,7 @@ type TaskPropsType = {
 
 export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
     const task = useAppSelector(state => state.tasks[todoListID].filter(t => t.id === taskID)[0])
+    const dispatch = useAppDispatch()
     const {removeTask, updateTask} = useActions(tasksActions)
 
     const removeTaskHandler = useCallback(() => {
@@ -28,8 +29,17 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
         })
     }, [])
 
-    const changeTaskTitle = useCallback((title: string) => {
-        updateTask({todoId: todoListID, taskId: taskID, model: {title}})
+    const changeTaskTitle = useCallback(async(title: string) => {
+        const thunk = tasksActions.updateTask({todoId: todoListID, taskId: taskID, model: {title}})
+        const resultAction = await dispatch(thunk)
+
+        if (tasksActions.updateTask.rejected.match(resultAction)) {
+            if (resultAction.payload?.errors?.length) {
+                throw new Error(resultAction.payload.errors[0])
+            } else {
+                throw new Error('Some error occurred')
+            }
+        }
     }, [])
 
     return (

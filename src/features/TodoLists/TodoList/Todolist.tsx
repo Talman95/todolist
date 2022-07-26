@@ -2,14 +2,15 @@ import React, {FC, memo, useCallback, useEffect} from 'react';
 import {Task} from "./Task/Task";
 import {TodolistHeader} from "./TodoListHeader/TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
-import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {AddItemForm, AddItemFormHelperType} from "../../../components/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
 import {FilterValuesType} from "../todolists-reducer";
 import {TaskStatuses} from "../../../api/todolist-api";
 import {RequestStatusType} from "../../../app/app-reducer";
-import {useAppSelector} from "../../../app/hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks/hooks";
 import {useActions} from "../../../app/hooks/useActions";
 import {tasksActions, todoListsActions} from "../index";
+import {authActions} from "../../Auth";
 
 type TodoListPropsType = {
     todoListID: string
@@ -20,9 +21,10 @@ type TodoListPropsType = {
 export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...props}) => {
     let tasks = useAppSelector(state => state.tasks[props.todoListID])
     const todoList = useAppSelector(state => state.todoLists.filter(tl => tl.id === props.todoListID)[0])
+    const dispatch = useAppDispatch()
 
     const {removeTodoList, updateTodoListTitle, changeFilterValue} = useActions(todoListsActions)
-    const {fetchTasks, addTask} = useActions(tasksActions)
+    const {fetchTasks} = useActions(tasksActions)
 
     useEffect(() => {
         if (demo) {
@@ -42,16 +44,39 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
         removeTodoList(props.todoListID)
     }, [])
 
-    const changeTodoListTitle = useCallback((title: string) => {
-        updateTodoListTitle({todoId: props.todoListID, title})
+    const changeTodoListTitle = useCallback(async (title: string) => {
+        const thunk = todoListsActions.updateTodoListTitle({todoId: props.todoListID, title})
+        const resultAction = await dispatch(thunk)
+
+        if (todoListsActions.updateTodoListTitle.rejected.match(resultAction)) {
+            if (resultAction.payload?.errors?.length) {
+                throw new Error(resultAction.payload.errors[0])
+            } else {
+                throw new Error('Some error occurred')
+            }
+        }
     }, [])
 
     const onClickSetFilter = useCallback((filter: FilterValuesType) => {
         changeFilterValue({id: props.todoListID, filter});
     }, [])
 
-    const addTaskHandler = useCallback((title: string) => {
-        addTask({todoId: props.todoListID, title})
+    const addTaskHandler = useCallback(async (title: string, helper: AddItemFormHelperType) => {
+        const thunk = tasksActions.addTask({todoId: props.todoListID, title})
+        const resultAction = await dispatch(thunk)
+
+        if (tasksActions.addTask.rejected.match(resultAction)) {
+            if (resultAction.payload) {
+                if (resultAction.payload.errors?.length) {
+                    const errorMessage = resultAction.payload.errors[0]
+                    helper.setError(errorMessage)
+                } else {
+                    helper.setError('Some error occurred')
+                }
+            }
+        } else {
+            helper.setTitle('')
+        }
     }, [])
 
     const tasksComponents = tasks.map(t => {

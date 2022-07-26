@@ -11,6 +11,7 @@ export const EditableSpan: FC<EditableSpanPropsType> = memo(({title, changeTitle
 
     const [titleSpan, setTitleSpan] = useState(title);
     const [editMode, setEditMode] = useState(false);
+    const [error, setError] = useState<string | null>('')
 
     const onEditMode = () => {
         if (disabled) {
@@ -18,11 +19,15 @@ export const EditableSpan: FC<EditableSpanPropsType> = memo(({title, changeTitle
         }
         setEditMode(true)
     }
-    const offEditMode = () => {
-        let trimTitle = titleSpan.trim();
-        if (trimTitle !== '') {
-            changeTitle(trimTitle);
-            setEditMode(false);
+    const offEditMode = async () => {
+        if (titleSpan.trim() !== '') {
+            try {
+                await changeTitle(titleSpan)
+                setEditMode(false)
+                error && setError(null)
+            } catch (err: any) {
+                setError(err.message)
+            }
         }
     }
     const onEnterPress = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -35,7 +40,7 @@ export const EditableSpan: FC<EditableSpanPropsType> = memo(({title, changeTitle
     }
 
     return (
-        <div style={{wordWrap: "break-word", textAlign: "start", padding: "0 20px", marginRight: "15px"}}>
+        <div style={{wordWrap: "break-word", padding: "0 20px", marginRight: "15px"}}>
             {editMode
                 ?
                 <TextField
@@ -47,9 +52,12 @@ export const EditableSpan: FC<EditableSpanPropsType> = memo(({title, changeTitle
                     multiline
                     variant={"outlined"}
                     fullWidth
+                    error={!!error}
+                    helperText={error}
+                    style={{textAlign: "end"}}
                 />
                 :
-                <div onDoubleClick={onEditMode} style={{overflowWrap: "anywhere"}}>
+                <div onDoubleClick={onEditMode} style={{overflowWrap: "anywhere", textAlign: "start"}}>
                     {titleSpan}
                 </div>
             }

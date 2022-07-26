@@ -1,8 +1,8 @@
 import React, {FC, useCallback, useEffect} from 'react';
 import {Grid, Paper} from "@material-ui/core";
-import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {AddItemForm, AddItemFormHelperType} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./TodoList/Todolist";
-import {useAppSelector} from "../../app/hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
 import {Navigate} from "react-router-dom";
 import {authSelectors} from "../Auth";
 import {selectTodoLists} from "./selectors";
@@ -16,7 +16,8 @@ type TodoListsContainerType = {
 export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
     const todoLists = useAppSelector(selectTodoLists)
     const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
-    const {addTodoList, fetchTodoLists} = useActions(todoListsActions)
+    const dispatch = useAppDispatch()
+    const {fetchTodoLists} = useActions(todoListsActions)
 
     useEffect(() => {
         if (demo || !isLoggedIn) {
@@ -25,8 +26,22 @@ export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
         fetchTodoLists()
     }, [])
 
-    const addTodoListHandler = useCallback((title: string) => {
-        addTodoList(title)
+    const addTodoListHandler = useCallback(async (title: string, helper: AddItemFormHelperType) => {
+        const thunk = todoListsActions.addTodoList(title)
+        const action = await dispatch(thunk)
+
+        if (todoListsActions.addTodoList.rejected.match(action)) {
+            if (action.payload) {
+                if (action.payload?.errors?.length) {
+                    const errorMessage = action.payload.errors[0]
+                    helper.setError(errorMessage)
+                } else {
+                    helper.setError('Some error occurred')
+                }
+            }
+        } else {
+            helper.setTitle('')
+        }
     }, [])
 
     const todoListsComponents = todoLists.map(tl => {
