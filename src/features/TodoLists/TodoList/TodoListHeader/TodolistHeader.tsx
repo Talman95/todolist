@@ -2,7 +2,7 @@ import React, {FC, memo} from 'react';
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
-import {RequestStatusType} from "../../../../app/app-reducer";
+import {RequestStatusType} from "../../../Application/app-reducer";
 
 type TodolistHeaderPropsType = {
     title: string

@@ -5,12 +5,12 @@ import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
 import {AddItemForm, AddItemFormHelperType} from "../../../components/AddItemForm/AddItemForm";
 import {List} from "@material-ui/core";
 import {FilterValuesType} from "../todolists-reducer";
-import {TaskStatuses} from "../../../api/todolist-api";
-import {RequestStatusType} from "../../../app/app-reducer";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks/hooks";
-import {useActions} from "../../../app/hooks/useActions";
+import {RequestStatusType} from "../../Application/app-reducer";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
+import {useActions} from "../../../utils/hooks/useActions";
 import {tasksActions, todoListsActions} from "../index";
 import {authActions} from "../../Auth";
+import {TaskStatuses} from "../../../api/types";
 
 type TodoListPropsType = {
     todoListID: string
@@ -45,10 +45,10 @@ export const Todolist: FC<TodoListPropsType> = memo(({demo, entityStatus, ...pro
     }, [])
 
     const changeTodoListTitle = useCallback(async (title: string) => {
-        const thunk = todoListsActions.updateTodoListTitle({todoId: props.todoListID, title})
+        const thunk = updateTodoListTitle({todoId: props.todoListID, title})
         const resultAction = await dispatch(thunk)
 
-        if (todoListsActions.updateTodoListTitle.rejected.match(resultAction)) {
+        if (updateTodoListTitle.rejected.match(resultAction)) {
             if (resultAction.payload?.errors?.length) {
                 throw new Error(resultAction.payload.errors[0])
             } else {

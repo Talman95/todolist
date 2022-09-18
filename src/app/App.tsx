@@ -12,13 +12,13 @@ import {
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {useAppSelector} from "./hooks/hooks";
+import {useAppSelector} from "../utils/hooks/hooks";
 import {Route, Routes} from 'react-router-dom';
 import {authActions, authSelectors, Login} from "../features/Auth";
 import {TodoListsContainer} from "../features/TodoLists";
-import {selectIsInitialized, selectStatus} from "./selectors";
-import {useActions} from "./hooks/useActions";
-import {appActions} from './'
+import {selectIsInitialized, selectStatus} from "../features/Application/selectors";
+import {useActions} from "../utils/hooks/useActions";
+import {appActions} from "../features/Application";
 
 type AppPropsType = {
     demo?: boolean
@@ -28,6 +28,7 @@ export const App = ({demo = false}) => {
     const status = useAppSelector(selectStatus)
     const isInitialized = useAppSelector(selectIsInitialized)
     const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+
     const {logout} = useActions(authActions)
     const {initializeApp} = useActions(appActions)
 

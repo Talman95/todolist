@@ -1,4 +1,4 @@
-import {RootState} from "../store/store";
+import {RootState} from "../../utils/types";
 
 
 export const selectStatus = (state: RootState) => (state.app.status)

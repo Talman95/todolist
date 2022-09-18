@@ -2,11 +2,11 @@ import React, {FC, useCallback, useEffect} from 'react';
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm, AddItemFormHelperType} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./TodoList/Todolist";
-import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {Navigate} from "react-router-dom";
 import {authSelectors} from "../Auth";
 import {selectTodoLists} from "./selectors";
-import {useActions} from "../../app/hooks/useActions";
+import {useActions} from "../../utils/hooks/useActions";
 import {todoListsActions} from "./index";
 
 type TodoListsContainerType = {

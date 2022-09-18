@@ -1,9 +1,12 @@
-import {addTodoList, fetchTodoLists, todoListsReducer, TodoListsStateType} from "./todolists-reducer";
-import {tasksReducer, TasksStateType} from "./TodoList/Task/tasks-reducer";
-import {TodoListType} from "../../api/todolist-api";
+import {asyncActions, TodoListsStateType} from "./todolists-reducer";
+import {slice, TasksStateType} from "./TodoList/Task/tasks-reducer";
+import {TodoListType} from "../../api/types";
+import {todoListsReducer} from "./index";
 
 let startTodoListsState: TodoListsStateType[] = []
 let startTasksState: TasksStateType = {}
+
+const tasksReducer = slice.reducer
 
 beforeEach(() => {
     startTodoListsState = []
@@ -11,8 +14,6 @@ beforeEach(() => {
 })
 
 test('IDs should be equals', () => {
-    // const startTodoListsState: TodoListsStateType[] = []
-    // const startTasksState: TasksStateType = {}
 
     const todoList: TodoListType = {
         id: '111-111',
@@ -20,7 +21,7 @@ test('IDs should be equals', () => {
         order: 1,
         title: 'What to read'
     }
-    const action = addTodoList.fulfilled(todoList, 'requestId', todoList.title)
+    const action = asyncActions.addTodoList.fulfilled(todoList, 'requestId', todoList.title)
 
     const endTodoListsState = todoListsReducer(startTodoListsState, action)
     const endTasksState = tasksReducer(startTasksState, action)
@@ -34,7 +35,7 @@ test('IDs should be equals', () => {
 })
 
 test('correct during set todolists IDs should be equals', () => {
-    const action = fetchTodoLists.fulfilled([
+    const action = asyncActions.fetchTodoLists.fulfilled([
         {id: 'todolistId1', addedDate: '', order: 0, title: 'What to learn'},
         {id: 'todolistId2', addedDate: '', order: 0, title: 'What to buy'}
     ], 'requestId')

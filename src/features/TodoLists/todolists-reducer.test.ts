@@ -1,14 +1,17 @@
 import {
-    addTodoList,
-    changeFilterValue,
-    fetchTodoLists,
-    removeTodoList,
-    todoListsReducer,
     TodoListsStateType,
-    updateTodoListTitle
 } from "./todolists-reducer";
 import {v1} from "uuid";
-import {TodoListType} from "../../api/todolist-api";
+import {TodoListType} from "../../api/types";
+import {todoListsActions, todoListsReducer} from "./index";
+
+const {
+    fetchTodoLists,
+    removeTodoList,
+    addTodoList,
+    updateTodoListTitle,
+    changeFilterValue,
+} = todoListsActions
 
 let todoListID1 = v1();
 let todoListID2 = v1();

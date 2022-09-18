@@ -1,4 +1,6 @@
-import {appReducer, AppReducerStateType, setAppStatus, setAppErrorMessage} from "./app-reducer";
+import {AppReducerStateType} from "./app-reducer";
+import {appActions} from '../CommonActions/App'
+import {appReducer} from "./index";
 
 
 let startState: AppReducerStateType
@@ -12,7 +14,7 @@ beforeEach(() => {
 })
 
 test('status should change', () => {
-    const action = setAppStatus({status: 'loading'})
+    const action = appActions.setAppStatus({status: 'loading'})
 
     const endState = appReducer(startState, action)
 
@@ -20,7 +22,7 @@ test('status should change', () => {
 })
 
 test('error message should be set', () => {
-    const action = setAppErrorMessage({errorMessage: 'error message'})
+    const action = appActions.setAppError({error: 'error message'})
     const endState = appReducer(startState, action)
     expect(endState.errorMessage).toBe('error message')
 })

@@ -1,8 +1,10 @@
-import {setAppErrorMessage, setAppStatus} from "../app/app-reducer";
-import {CommonResponseType} from "../api/todolist-api";
 import {Dispatch} from "redux";
+import {CommonResponseType} from "../api/types";
+import {appActions} from "../features/CommonActions/App";
 
-type DispatchType = Dispatch<ReturnType<typeof setAppErrorMessage> | ReturnType<typeof setAppStatus>>
+const {setAppError, setAppStatus} = appActions
+
+type DispatchType = Dispatch<ReturnType<typeof setAppError> | ReturnType<typeof setAppStatus>>
 type ThunkAPIType = {
     dispatch: DispatchType
     rejectWithValue: Function
@@ -16,9 +18,9 @@ export const handleServerAppError = <T>(
 ) => {
     if (showError) {
         if (data.messages.length) {
-            dispatch(setAppErrorMessage({errorMessage: data.messages[0]}))
+            dispatch(setAppError({error: data.messages[0]}))
         } else {
-            dispatch(setAppErrorMessage({errorMessage: 'Some error occurred'}))
+            dispatch(setAppError({error: 'Some error occurred'}))
         }
     }
     dispatch(setAppStatus({status: 'failed'}))
@@ -31,9 +33,9 @@ export const handleNetworkError = (
 ) => {
     if (showError) {
         if (err.message) {
-            dispatch(setAppErrorMessage(err.message))
+            dispatch(setAppError(err.message))
         } else {
-            dispatch(setAppErrorMessage({errorMessage: 'Some error occurred'}))
+            dispatch(setAppError({error: 'Some error occurred'}))
         }
     }
     dispatch(setAppStatus({status: 'failed'}))
@@ -46,9 +48,9 @@ export const handleAsyncServerAppError = <T>(
 ) => {
     if (showError) {
         if (data.messages.length) {
-            thunkAPI.dispatch(setAppErrorMessage({errorMessage: data.messages[0]}))
+            thunkAPI.dispatch(setAppError({error: data.messages[0]}))
         } else {
-            thunkAPI.dispatch(setAppErrorMessage({errorMessage: 'Some error occurred'}))
+            thunkAPI.dispatch(setAppError({error: 'Some error occurred'}))
         }
     }
     thunkAPI.dispatch(setAppStatus({status: 'failed'}))
@@ -63,9 +65,9 @@ export const handleAsyncNetworkError = (
 ) => {
     if (showError) {
         if (err.message) {
-            thunkAPI.dispatch(setAppErrorMessage(err.message))
+            thunkAPI.dispatch(setAppError(err.message))
         } else {
-            thunkAPI.dispatch(setAppErrorMessage({errorMessage: 'Some error occurred'}))
+            thunkAPI.dispatch(setAppError({error: 'Some error occurred'}))
         }
     }
     thunkAPI.dispatch(setAppStatus({status: 'failed'}))

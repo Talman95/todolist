@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import {useFormik} from "formik";
 import {authActions} from "./";
-import {useAppDispatch, useAppSelector} from "../../app/hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "./selectors";
 
