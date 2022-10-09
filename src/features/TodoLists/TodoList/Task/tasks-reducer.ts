@@ -10,6 +10,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {asyncActions as asyncTodoListsActions} from '../../todolists-reducer'
 import {RootState, ThunkErrorType} from "../../../../utils/types";
 import {TaskType, UpdatedDomainTaskModel} from "../../../../api/types";
+import {authActions} from "../../../Auth";
 
 const {setAppStatus} = appActions
 
@@ -126,6 +127,11 @@ export const slice = createSlice({
                 const tasks = state[action.payload.todoId]
                 const index = tasks.findIndex(t => t.id === action.payload.taskId)
                 if (index > -1) tasks[index] = {...tasks[index], ...action.payload.model}
+            })
+            .addCase(authActions.logout.fulfilled, (state, action) => {
+                for (let task in state) {
+                    delete state[task]
+                }
             })
     }
 })

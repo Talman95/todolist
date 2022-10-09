@@ -9,7 +9,6 @@ import {RequestStatusType} from "../../Application/app-reducer";
 import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {useActions} from "../../../utils/hooks/useActions";
 import {tasksActions, todoListsActions} from "../index";
-import {authActions} from "../../Auth";
 import {TaskStatuses} from "../../../api/types";
 
 type TodoListPropsType = {
