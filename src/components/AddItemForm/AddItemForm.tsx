@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FC, KeyboardEvent, memo, useState} from 'react';
-import {IconButton, TextField} from "@material-ui/core";
-import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
+import {IconButton, TextField} from "@mui/material";
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 export type AddItemFormHelperType = {
     setError: (error: string) => void
@@ -34,7 +34,7 @@ export const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem, disabled = 
     }
 
     return (
-        <div style={{display: "flex", alignItems: "flex-start", textAlign: "center"}}>
+        <div style={{display: "flex", alignItems: "flex-start", justifyContent: "center", textAlign: "center"}}>
             <TextField
                 value={title}
                 onChange={onChangeSetTitle}
@@ -51,7 +51,7 @@ export const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem, disabled = 
                 color={'primary'}
                 disabled={disabled}
             >
-                <AddBoxOutlinedIcon/>
+                <AddBoxIcon/>
             </IconButton>
         </div>
     );

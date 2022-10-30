@@ -1,16 +1,5 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {
-    AppBar,
-    Button,
-    CircularProgress,
-    Container,
-    IconButton,
-    LinearProgress,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useAppSelector} from "../utils/hooks/hooks";
 import {Route, Routes} from 'react-router-dom';
@@ -19,6 +8,7 @@ import {TodoListsContainer} from "../features/TodoLists";
 import {selectIsInitialized, selectStatus} from "../features/Application/selectors";
 import {useActions} from "../utils/hooks/useActions";
 import {appActions} from "../features/Application";
+import {AppBar, Button, CircularProgress, Container, LinearProgress, Toolbar, Typography} from "@mui/material";
 
 type AppPropsType = {
     demo?: boolean
@@ -50,28 +40,26 @@ export const App = ({demo = false}) => {
     return (
         <div style={{height: "100vh"}}>
             <ErrorSnackbar/>
-            <AppBar position={"static"}>
+            <AppBar position={"static"} style={{height: '64px'}}>
                 {isLoggedIn
                     ?
                     <Toolbar style={{justifyContent: "space-between"}}>
-                        <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
-                            <MenuIcon/>
-                        </IconButton>
                         <Typography variant={"h6"}>
                             TodoLists
                         </Typography>
                         <Button color={"inherit"} variant={"outlined"} onClick={logoutHandler}>Logout</Button>
                     </Toolbar>
                     :
-                    <Toolbar style={{justifyContent: "center"}}>
+                    <Toolbar style={{justifyContent: "flex-start"}}>
                         <Typography variant={"h6"}>
                             TodoLists
                         </Typography>
                     </Toolbar>
                 }
-                {status === 'loading' && <LinearProgress/>}
+                {status === 'loading' &&
+                    <LinearProgress sx={{ position: 'absolute', top: '64px', left: 0, right: 0 }}/>}
             </AppBar>
-            <Container fixed>
+            <Container fixed sx={{paddingTop: '20px'}}>
                 <Routes>
                     <Route path={'/'} element={<TodoListsContainer demo={demo}/>}/>
                     <Route path={'/login'} element={<Login/>}/>

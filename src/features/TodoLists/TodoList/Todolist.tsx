@@ -3,13 +3,13 @@ import {Task} from "./Task/Task";
 import {TodolistHeader} from "./TodoListHeader/TodolistHeader";
 import {ButtonsBlock} from "./ButtonsBlock/ButtonsBlock";
 import {AddItemForm, AddItemFormHelperType} from "../../../components/AddItemForm/AddItemForm";
-import {List} from "@material-ui/core";
 import {FilterValuesType} from "../todolists-reducer";
 import {RequestStatusType} from "../../Application/app-reducer";
 import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {useActions} from "../../../utils/hooks/useActions";
 import {tasksActions, todoListsActions} from "../index";
 import {TaskStatuses} from "../../../api/types";
+import {List} from "@mui/material";
 
 type TodoListPropsType = {
     todoListID: string

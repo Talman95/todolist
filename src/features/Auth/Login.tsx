@@ -1,19 +1,10 @@
 import React from 'react';
-import {
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormGroup,
-    FormLabel,
-    Grid,
-    TextField
-} from "@material-ui/core";
 import {useFormik} from "formik";
 import {authActions} from "./";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "./selectors";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
 
 export const Login = () => {
     const isLoggedIn = useAppSelector(selectIsLoggedIn)

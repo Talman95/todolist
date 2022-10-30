@@ -1,6 +1,6 @@
 import React, {FC, memo} from 'react';
-import {Button, ButtonGroup} from "@material-ui/core";
 import {FilterValuesType} from "../../todolists-reducer";
+import {Button, ButtonGroup} from "@mui/material";
 
 type PropsType = {
     setFilterValue: (filterValue: FilterValuesType) => void

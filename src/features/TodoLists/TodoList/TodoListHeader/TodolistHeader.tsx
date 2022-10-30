@@ -1,8 +1,8 @@
 import React, {FC, memo} from 'react';
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
-import {IconButton} from "@material-ui/core";
-import DeleteIcon from '@material-ui/icons/Delete';
 import {RequestStatusType} from "../../../Application/app-reducer";
+import {IconButton} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type TodolistHeaderPropsType = {
     title: string
@@ -27,7 +27,7 @@ export const TodolistHeader: FC<TodolistHeaderPropsType> = memo(({
             <IconButton
                 onClick={removeTodoList}
                 disabled={entityStatus === 'loading'}
-                style={{position: 'absolute', right: '5px', top: '5px'}}
+                style={{position: 'absolute', right: '7px', top: '21px'}}
             >
                 <DeleteIcon/>
             </IconButton>

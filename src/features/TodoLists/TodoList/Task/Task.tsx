@@ -1,11 +1,11 @@
 import React, {ChangeEvent, FC, memo, useCallback} from 'react';
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import {Checkbox, IconButton, ListItem, ListItemSecondaryAction} from "@material-ui/core";
 import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
 import {useActions} from "../../../../utils/hooks/useActions";
 import {tasksActions} from "../../index";
 import {TaskStatuses} from "../../../../api/types";
+import {Checkbox, IconButton, ListItem, ListItemSecondaryAction} from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 type TaskPropsType = {
     todoListID: string
