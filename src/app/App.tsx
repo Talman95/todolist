@@ -59,7 +59,7 @@ export const App = ({demo = false}) => {
                 {status === 'loading' &&
                     <LinearProgress sx={{ position: 'absolute', top: '64px', left: 0, right: 0 }}/>}
             </AppBar>
-            <Container fixed sx={{paddingTop: '20px'}}>
+            <Container fixed sx={{paddingTop: '20px', overflowX: 'scroll', height: 'calc(100vh - 64px)'}}>
                 <Routes>
                     <Route path={'/'} element={<TodoListsContainer demo={demo}/>}/>
                     <Route path={'/login'} element={<Login/>}/>

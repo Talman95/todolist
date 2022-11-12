@@ -14,7 +14,9 @@ type TaskPropsType = {
 
 export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
     const task = useAppSelector(state => state.tasks[todoListID].filter(t => t.id === taskID)[0])
+
     const dispatch = useAppDispatch()
+
     const {removeTask, updateTask} = useActions(tasksActions)
 
     const removeTaskHandler = useCallback(() => {
@@ -29,7 +31,7 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
         })
     }, [])
 
-    const changeTaskTitle = useCallback(async(title: string) => {
+    const changeTaskTitle = useCallback(async (title: string) => {
         const thunk = tasksActions.updateTask({todoId: todoListID, taskId: taskID, model: {title}})
         const resultAction = await dispatch(thunk)
 
@@ -50,9 +52,7 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
                 size={"small"}
                 onChange={changeTaskStatus}
             />
-            <span className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
-                <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
-            </span>
+            <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
             <ListItemSecondaryAction>
                 <IconButton
                     onClick={removeTaskHandler}

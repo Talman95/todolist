@@ -70,9 +70,9 @@ export const TodoListsContainer: FC<TodoListsContainerType> = ({demo}) => {
             </Grid>
             <Grid container
                   spacing={6}
-                  style={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
+                  style={{flexWrap: 'nowrap'}}>
                 {todoListsComponents}
             </Grid>
         </>
-    );
-};
+    )
+}
