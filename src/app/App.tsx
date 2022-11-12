@@ -9,6 +9,8 @@ import {selectIsInitialized, selectStatus} from "../features/Application/selecto
 import {useActions} from "../utils/hooks/useActions";
 import {appActions} from "../features/Application";
 import {AppBar, Button, CircularProgress, Container, LinearProgress, Toolbar, Typography} from "@mui/material";
+import {TaskModal} from "../features/TaskModal";
+import {BasicModal} from "../components/BasicModal/BasicModal";
 
 type AppPropsType = {
     demo?: boolean
@@ -66,6 +68,9 @@ export const App = ({demo = false}) => {
                     <Route path={'*'} element={<h1>404: PAGE NOT FOUND</h1>}/>
                 </Routes>
             </Container>
+            <BasicModal>
+                <TaskModal/>
+            </BasicModal>
         </div>
     )
 }

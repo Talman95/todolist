@@ -8,12 +8,14 @@ import {appReducer} from "../../features/Application";
 import {TaskPriorities, TaskStatuses} from "../../api/types";
 import {tasksReducer, todoListsReducer} from "../../features/TodoLists";
 import {RootReducerType, RootState} from "../../utils/types";
+import {taskModalReducer} from "../../features/TaskModal";
 
 const rootReducer: RootReducerType = combineReducers({
     todoLists: todoListsReducer,
     tasks: tasksReducer,
     app: appReducer,
     auth: authReducer,
+    modal: taskModalReducer,
 })
 
 const initialGlobalState = {
@@ -54,6 +56,9 @@ const initialGlobalState = {
     },
     auth: {
         isLoggedIn: true,
+    },
+    modal: {
+        currentTask: null,
     }
 };
 

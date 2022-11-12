@@ -1,11 +1,11 @@
 import React, {ChangeEvent, FC, memo, useCallback} from 'react';
-import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
 import {useActions} from "../../../../utils/hooks/useActions";
 import {tasksActions} from "../../index";
 import {TaskStatuses} from "../../../../api/types";
 import {Checkbox, IconButton, ListItem, ListItemSecondaryAction} from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import {taskModalActions} from "../../../TaskModal";
 
 type TaskPropsType = {
     todoListID: string
@@ -18,6 +18,7 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
     const dispatch = useAppDispatch()
 
     const {removeTask, updateTask} = useActions(tasksActions)
+    const {openModalTask} = useActions(taskModalActions)
 
     const removeTaskHandler = useCallback(() => {
         removeTask({todoId: todoListID, taskId: taskID})
@@ -44,6 +45,10 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
         }
     }, [])
 
+    const onOpenModalTaskClick = () => {
+        openModalTask(task)
+    }
+
     return (
         <ListItem divider>
             <Checkbox
@@ -52,7 +57,11 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
                 size={"small"}
                 onChange={changeTaskStatus}
             />
-            <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
+            <span className={task.status === TaskStatuses.Completed ? "is-done" : ""}
+                  style={{overflowWrap: "anywhere", textAlign: "start", cursor: 'pointer', width: '180px'}}
+                  onClick={onOpenModalTaskClick}>
+                {task.title}
+            </span>
             <ListItemSecondaryAction>
                 <IconButton
                     onClick={removeTaskHandler}
