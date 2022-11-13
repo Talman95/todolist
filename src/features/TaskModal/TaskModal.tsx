@@ -45,7 +45,7 @@ export const TaskModal = () => {
                 model: {
                     title: values.title,
                     description: values.description,
-                    priority: values.priority,
+                    priority: +values.priority,
                 },
             })
             const resultAction = await dispatch(thunk)

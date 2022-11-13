@@ -1,11 +1,13 @@
 import React, {ChangeEvent, FC, memo, useCallback} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
+import {useAppSelector} from "../../../../utils/hooks/hooks";
 import {useActions} from "../../../../utils/hooks/useActions";
 import {tasksActions} from "../../index";
 import {TaskStatuses} from "../../../../api/types";
-import {Checkbox, IconButton, ListItem, ListItemSecondaryAction} from "@mui/material";
+import {Box, Checkbox, Chip, IconButton, ListItem, ListItemSecondaryAction, Stack} from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {taskModalActions} from "../../../TaskModal";
+import {priorityUtils} from "../../../../utils/priority-utils";
+import {colorUtils} from "../../../../utils/color-utils";
 
 type TaskPropsType = {
     todoListID: string
@@ -14,8 +16,6 @@ type TaskPropsType = {
 
 export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
     const task = useAppSelector(state => state.tasks[todoListID].filter(t => t.id === taskID)[0])
-
-    const dispatch = useAppDispatch()
 
     const {removeTask, updateTask} = useActions(tasksActions)
     const {openModalTask} = useActions(taskModalActions)
@@ -32,18 +32,18 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
         })
     }, [])
 
-    const changeTaskTitle = useCallback(async (title: string) => {
-        const thunk = tasksActions.updateTask({todoId: todoListID, taskId: taskID, model: {title}})
-        const resultAction = await dispatch(thunk)
-
-        if (tasksActions.updateTask.rejected.match(resultAction)) {
-            if (resultAction.payload?.errors?.length) {
-                throw new Error(resultAction.payload.errors[0])
-            } else {
-                throw new Error('Some error occurred')
-            }
-        }
-    }, [])
+    // const changeTaskTitle = useCallback(async (title: string) => {
+    //     const thunk = tasksActions.updateTask({todoId: todoListID, taskId: taskID, model: {title}})
+    //     const resultAction = await dispatch(thunk)
+    //
+    //     if (tasksActions.updateTask.rejected.match(resultAction)) {
+    //         if (resultAction.payload?.errors?.length) {
+    //             throw new Error(resultAction.payload.errors[0])
+    //         } else {
+    //             throw new Error('Some error occurred')
+    //         }
+    //     }
+    // }, [])
 
     const onOpenModalTaskClick = () => {
         openModalTask(task)
@@ -57,11 +57,22 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
                 size={"small"}
                 onChange={changeTaskStatus}
             />
+            <Box>
             <span className={task.status === TaskStatuses.Completed ? "is-done" : ""}
                   style={{overflowWrap: "anywhere", textAlign: "start", cursor: 'pointer', width: '180px'}}
                   onClick={onOpenModalTaskClick}>
                 {task.title}
             </span>
+                <Stack direction={'row'} spacing={1}>
+                    {task.description && <Chip label={'Desc'} size={'small'} color={'primary'}/>}
+                    {(task.priority || task.priority === 0) &&
+                        <Chip
+                            label={priorityUtils(task.priority)}
+                            size={'small'}
+                            color={colorUtils(task.priority)}
+                        />}
+                </Stack>
+            </Box>
             <ListItemSecondaryAction>
                 <IconButton
                     onClick={removeTaskHandler}
@@ -71,5 +82,5 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
                 </IconButton>
             </ListItemSecondaryAction>
         </ListItem>
-    );
-});
+    )
+})
