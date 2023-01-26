@@ -57,19 +57,20 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
                 size={"small"}
                 onChange={changeTaskStatus}
             />
-            <Box>
+            <Box onClick={onOpenModalTaskClick} style={{cursor: 'pointer'}}>
             <span className={task.status === TaskStatuses.Completed ? "is-done" : ""}
-                  style={{overflowWrap: "anywhere", textAlign: "start", cursor: 'pointer', width: '180px'}}
-                  onClick={onOpenModalTaskClick}>
+                  style={{overflowWrap: "anywhere", textAlign: "start", width: '180px'}}>
                 {task.title}
             </span>
                 <Stack direction={'row'} spacing={1}>
-                    {task.description && <Chip label={'Desc'} size={'small'} color={'primary'}/>}
+                    {task.description &&
+                        <Chip label={'Desc'} size={'small'} color={'primary'} style={{cursor: 'pointer'}}/>}
                     {(task.priority || task.priority === 0) &&
                         <Chip
                             label={priorityUtils(task.priority)}
                             size={'small'}
                             color={colorUtils(task.priority)}
+                            style={{cursor: 'pointer'}}
                         />}
                 </Stack>
             </Box>

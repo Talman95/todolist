@@ -1,7 +1,8 @@
 {
-  "name": "it-incubator-todolist-ts",
-  "version": "0.1.0",
+  "name": "todolist",
+  "version": "1.0.0",
   "private": true,
+  "homepage": "https://Talman95.github.io/todolist",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -22,6 +23,7 @@
     "@types/uuid": "^8.3.4",
     "axios": "^1.1.3",
     "formik": "^2.2.9",
+    "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
@@ -40,7 +42,9 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "storybook-debug": "start-storybook -p 9009 -s public --no-dll",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
