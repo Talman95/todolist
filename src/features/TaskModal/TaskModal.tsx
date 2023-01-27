@@ -37,8 +37,6 @@ export const TaskModal = () => {
             deadline: task?.deadline,
         },
         onSubmit: async (values) => {
-            alert(JSON.stringify(values))
-
             const thunk = tasksActions.updateTask({
                 todoId: task?.todoListId || '',
                 taskId: task?.id || '',
@@ -99,7 +97,8 @@ export const TaskModal = () => {
                         {...formik.getFieldProps('priority')}
                     >
                         {priorityValues.map((p, index) =>
-                            <FormControlLabel key={index} value={index} control={<Radio/>} label={p}/>
+                            <FormControlLabel key={index} value={index} control={<Radio/>}
+                                              label={p}/>
                         )}
                     </RadioGroup>
 

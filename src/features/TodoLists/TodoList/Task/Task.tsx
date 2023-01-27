@@ -32,19 +32,6 @@ export const Task: FC<TaskPropsType> = memo(({todoListID, taskID}) => {
         })
     }, [])
 
-    // const changeTaskTitle = useCallback(async (title: string) => {
-    //     const thunk = tasksActions.updateTask({todoId: todoListID, taskId: taskID, model: {title}})
-    //     const resultAction = await dispatch(thunk)
-    //
-    //     if (tasksActions.updateTask.rejected.match(resultAction)) {
-    //         if (resultAction.payload?.errors?.length) {
-    //             throw new Error(resultAction.payload.errors[0])
-    //         } else {
-    //             throw new Error('Some error occurred')
-    //         }
-    //     }
-    // }, [])
-
     const onOpenModalTaskClick = () => {
         openModalTask(task)
     }
