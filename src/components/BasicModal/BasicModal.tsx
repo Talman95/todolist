@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Box, Modal} from "@mui/material";
-import {useAppSelector} from "../../utils/hooks/hooks";
-import {useActions} from "../../utils/hooks/useActions";
-import {taskModalActions} from "../../features/TaskModal";
+import {useActions} from "../../hooks/useActions";
+import {taskModalActions} from "../../features/taskModal/taskModal.reducer";
+import {useAppSelector} from "../../hooks/useAppSelector";
 
 const style = {
     position: 'absolute' as 'absolute',

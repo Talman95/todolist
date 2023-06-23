@@ -1,5 +1,5 @@
 import {TaskPriorities} from "../api/types";
-import {ColorType} from "./types";
+import {ColorType} from "../types/types";
 
 
 export const colorUtils = (priority: TaskPriorities): ColorType => {

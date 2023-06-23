@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {useAppSelector} from "../utils/hooks/hooks";
 import {Route, Routes} from 'react-router-dom';
-import {authActions, authSelectors, Login} from "../features/Auth";
-import {TodoListsContainer} from "../features/TodoLists";
-import {selectIsInitialized, selectStatus} from "../features/Application/selectors";
-import {useActions} from "../utils/hooks/useActions";
-import {appActions} from "../features/Application";
+import {authThunks} from "../features/auth/auth.reducer";
+import {TodoListsContainer} from "../features/todoListsContainer/TodoListsContainer";
+import {selectIsInitialized, selectStatus} from "./selectors";
+import {useActions} from "../hooks/useActions";
 import {AppBar, Button, CircularProgress, Container, LinearProgress, Toolbar, Typography} from "@mui/material";
-import {TaskModal} from "../features/TaskModal";
+import {TaskModal} from "../features/taskModal/TaskModal";
 import {BasicModal} from "../components/BasicModal/BasicModal";
+import {selectIsLoggedIn} from "../features/auth/selectors";
+import {Login} from "../features/auth/Login";
+import {useAppSelector} from "../hooks/useAppSelector";
 
 type AppPropsType = {
     demo?: boolean
@@ -19,10 +20,9 @@ type AppPropsType = {
 export const App = ({demo = false}) => {
     const status = useAppSelector(selectStatus)
     const isInitialized = useAppSelector(selectIsInitialized)
-    const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+    const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
-    const {logout} = useActions(authActions)
-    const {initializeApp} = useActions(appActions)
+    const {logout, initializeApp} = useActions(authThunks)
 
     useEffect(() => {
         initializeApp()

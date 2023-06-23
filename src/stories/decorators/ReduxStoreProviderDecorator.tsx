@@ -3,12 +3,13 @@ import {Provider} from "react-redux"
 import {combineReducers} from 'redux';
 import {configureStore} from "@reduxjs/toolkit";
 import {HashRouter} from "react-router-dom";
-import {authReducer} from "../../features/Auth";
-import {appReducer} from "../../features/Application";
+import {authReducer} from "../../features/auth/auth.reducer";
+import {appReducer} from "../../app/app.reducer";
 import {TaskPriorities, TaskStatuses} from "../../api/types";
-import {tasksReducer, todoListsReducer} from "../../features/TodoLists";
-import {RootReducerType, RootState} from "../../utils/types";
-import {taskModalReducer} from "../../features/TaskModal";
+import {tasksReducer} from "../../features/todoListsContainer/tasks.reducer";
+import {todoListsReducer} from "../../features/todoListsContainer/todoLists.reducer";
+import {RootReducerType, RootState} from "../../types/types";
+import {taskModalReducer} from "../../features/taskModal/taskModal.reducer";
 
 const rootReducer: RootReducerType = combineReducers({
     todoLists: todoListsReducer,

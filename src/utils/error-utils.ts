@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {CommonResponseType} from "../api/types";
-import {appActions} from "../features/CommonActions/App";
+import {appActions} from "../app/app.reducer";
 
 const {setAppError, setAppStatus} = appActions
 
