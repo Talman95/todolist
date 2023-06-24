@@ -5,7 +5,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { SnackbarCloseReason } from '@mui/material/Snackbar/Snackbar';
 
 import { appActions } from 'app/app.reducer';
-import { selectErrorMessage } from 'app/selectors';
+import { selectErrorMessage } from 'app/app.selectors';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useAppSelector } from 'hooks/useAppSelector';
 

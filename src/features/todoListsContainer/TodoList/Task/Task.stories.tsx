@@ -7,6 +7,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import { Task } from './Task';
 
+import { TaskPriorities, TaskStatuses, TaskType } from 'api/types';
 import { ReduxStoreProviderDecorator } from 'stories/decorators/ReduxStoreProviderDecorator';
 
 export default {
@@ -20,8 +21,21 @@ export default {
   decorators: [ReduxStoreProviderDecorator],
 } as ComponentMeta<typeof Task>;
 
+const task: TaskType = {
+  addedDate: '',
+  deadline: '',
+  description: '',
+  id: '',
+  order: 1,
+  priority: TaskPriorities.Low,
+  startDate: '',
+  status: TaskStatuses.New,
+  title: '',
+  todoListId: '',
+};
+
 const Template: ComponentStory<typeof Task> = () => {
-  return <Task todoListID="todolistId1" taskID="111" />;
+  return <Task todoId="todolistId1" task={task} />;
 };
 
 export const TaskIsDoneExample = Template.bind({});

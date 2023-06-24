@@ -21,6 +21,7 @@ import { tasksThunks } from '../todoListsContainer/tasks.reducer';
 import { taskModalActions } from './taskModal.reducer';
 
 import { TaskPriorities } from 'api/types';
+import { selectCurrentTask } from 'features/taskModal/taskModal.selectors';
 import { useActions } from 'hooks/useActions';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useAppSelector } from 'hooks/useAppSelector';
@@ -30,7 +31,7 @@ const priorityValues = ['Low', 'Middle', 'High', 'Urgently', 'Later'];
 export const TaskModal = () => {
   const dispatch = useAppDispatch();
 
-  const task = useAppSelector(state => state.modal.currentTask);
+  const task = useAppSelector(selectCurrentTask);
 
   const { closeModalTask } = useActions(taskModalActions);
 

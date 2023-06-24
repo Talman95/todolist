@@ -14,33 +14,28 @@ import {
 import { taskModalActions } from '../../../taskModal/taskModal.reducer';
 import { tasksThunks } from '../../tasks.reducer';
 
-import { TaskStatuses } from 'api/types';
+import { TaskStatuses, TaskType } from 'api/types';
 import { useActions } from 'hooks/useActions';
-import { useAppSelector } from 'hooks/useAppSelector';
 import { colorUtils } from 'utils/color-utils';
 import { priorityUtils } from 'utils/priority-utils';
 
 type TaskPropsType = {
-  todoListID: string;
-  taskID: string;
+  todoId: string;
+  task: TaskType;
 };
 
-export const Task = memo(({ todoListID, taskID }: TaskPropsType) => {
-  const task = useAppSelector(
-    state => state.tasks[todoListID].filter(t => t.id === taskID)[0],
-  );
-
+export const Task = memo(({ todoId, task }: TaskPropsType) => {
   const { removeTask, updateTask } = useActions(tasksThunks);
   const { openModalTask } = useActions(taskModalActions);
 
   const removeTaskHandler = useCallback(() => {
-    removeTask({ todoId: todoListID, taskId: taskID });
+    removeTask({ todoId, taskId: task.id });
   }, []);
 
   const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     updateTask({
-      todoId: todoListID,
-      taskId: taskID,
+      todoId,
+      taskId: task.id,
       model: {
         status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New,
       },

@@ -3,13 +3,15 @@ import React, { FC, useCallback, useEffect } from 'react';
 import { Grid, Paper } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
-import { selectIsLoggedIn } from '../auth/selectors';
-
-import { selectTodoLists } from './selectors';
 import { Todolist } from './TodoList/Todolist';
 import { todoListsThunks } from './todoLists.reducer';
 
 import { AddItemForm, AddItemFormHelperType } from 'components/AddItemForm/AddItemForm';
+import { selectIsLoggedIn } from 'features/auth/auth.selectors';
+import {
+  selectTasks,
+  selectTodoLists,
+} from 'features/todoListsContainer/todoLists.selectors';
 import { useActions } from 'hooks/useActions';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useAppSelector } from 'hooks/useAppSelector';
@@ -19,9 +21,12 @@ type TodoListsContainerType = {
 };
 
 export const TodoListsContainer: FC<TodoListsContainerType> = ({ demo }) => {
+  const dispatch = useAppDispatch();
+
   const todoLists = useAppSelector(selectTodoLists);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const dispatch = useAppDispatch();
+  const tasks = useAppSelector(selectTasks);
+
   const { fetchTodoLists } = useActions(todoListsThunks);
 
   useEffect(() => {
@@ -54,13 +59,15 @@ export const TodoListsContainer: FC<TodoListsContainerType> = ({ demo }) => {
   );
 
   const todoListsComponents = todoLists.map(tl => {
+    const tasksForTodoList = tasks[tl.id];
+
     return (
       <Grid item key={tl.id}>
         <Paper
           elevation={8}
           style={{ padding: '10px', width: '300px', position: 'relative' }}
         >
-          <Todolist todoListID={tl.id} demo={demo} entityStatus={tl.entityStatus} />
+          <Todolist todo={tl} tasks={tasksForTodoList} demo={demo} />
         </Paper>
       </Grid>
     );

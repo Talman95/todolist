@@ -12,13 +12,12 @@ import {
 } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 
-import { selectIsInitialized, selectStatus } from './selectors';
-
+import { selectIsInitialized, selectStatus } from 'app/app.selectors';
 import { BasicModal } from 'components/BasicModal/BasicModal';
 import { ErrorSnackbar } from 'components/ErrorSnackbar/ErrorSnackbar';
 import { authThunks } from 'features/auth/auth.reducer';
+import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 import { Login } from 'features/auth/Login';
-import { selectIsLoggedIn } from 'features/auth/selectors';
 import { TaskModal } from 'features/taskModal/TaskModal';
 import { TodoListsContainer } from 'features/todoListsContainer/TodoListsContainer';
 import { useActions } from 'hooks/useActions';

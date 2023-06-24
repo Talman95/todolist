@@ -14,8 +14,8 @@ import { useFormik } from 'formik';
 import { Navigate } from 'react-router-dom';
 
 import { authThunks } from './auth.reducer';
-import { selectIsLoggedIn } from './selectors';
 
+import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useAppSelector } from 'hooks/useAppSelector';
 
