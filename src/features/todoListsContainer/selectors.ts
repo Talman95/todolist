@@ -1,4 +1,3 @@
-// all todoLists
-import {RootState} from "../../types/types";
+import { RootState } from 'app/store';
 
-export const selectTodoLists = (state: RootState) => (state.todoLists)
+export const selectTodoLists = (state: RootState) => state.todoLists;

@@ -1,11 +1,5 @@
 import React from 'react';
 
-const TaskDescription = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+export const TaskDescription = () => {
+  return <div />;
 };
-
-export default TaskDescription;
